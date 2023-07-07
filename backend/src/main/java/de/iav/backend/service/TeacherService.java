@@ -30,6 +30,8 @@ public class TeacherService {
         return teacherRepository.findByLoginNameAndTeacherId(loginName, teacherId);
     }
     
-    
+    public Teacher addTeacher (Teacher teacher){
+        return teacherRepository.save(teacher);
+    }
     
 }
