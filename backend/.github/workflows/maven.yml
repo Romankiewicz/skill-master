@@ -8,13 +8,8 @@
 
 name: Build project with maven
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    - opened
-    - synchronize
-
+on: push
+    
 jobs:
   build:
     runs-on: ubuntu-latest
