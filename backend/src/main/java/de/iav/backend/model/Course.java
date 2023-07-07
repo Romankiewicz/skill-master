@@ -15,7 +15,7 @@ public record Course(
         @DBRef
         List<Student> students,
         @DBRef
-        List<Teacher> teachers
+        Teacher teacher
 ) {
 
 }
