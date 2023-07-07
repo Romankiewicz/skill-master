@@ -22,6 +22,6 @@ jobs:
           java-version: "20"
           distribution: "temurin"
       - name: Build with Maven
-        run: mvn --batch-mode package --file ../../frontend/pom.xml
+        run: mvn --batch-mode package --file frontend/pom.xml
 
 
