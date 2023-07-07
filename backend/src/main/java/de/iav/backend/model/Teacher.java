@@ -15,7 +15,7 @@ public record Teacher(
         String firstName,
         String lastName,
         String email,
-        @DBRef
+        @DBRef (db = courses)
         List<Course> courseList
 ) {
 
