@@ -12,9 +12,9 @@ public record Course(
         @MongoId
         String courseId,
         String courseName,
-        @DBRef
+        @DBRef(db = students)
         List<Student> students,
-        @DBRef
+        @DBRef(db = teachers)
         Teacher teacher
 ) {
 
