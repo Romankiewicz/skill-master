@@ -6,12 +6,12 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: "Deploy App"
+name: Deploy App
 
-on:
-  push
+on: push
 
 jobs:
+
   build-backend:
     runs-on: ubuntu-latest
     steps:
@@ -32,5 +32,32 @@ jobs:
         with:
           name: backend.jar
           path: backend/target/backend.jar
+
+
+  push-to-docker-hub:
+    runs-on: ubuntu-latest
+    needs: build-backend
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: backend.jar
+          path: backend/target
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          #Set dockerhub username
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          #Set dockerhub project (replace "sergejneuefische/javafx-student-db")
+          tags: ziso3928/skill-master-backend:latest
+          context: ./backend
 
 
