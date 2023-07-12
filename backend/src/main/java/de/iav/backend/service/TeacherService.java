@@ -57,11 +57,44 @@ public class TeacherService {
                 updateTeacher.courseList()));
     }
 
-    /*public Course addCourseToCourseListOfTeacher(String teacherId, CourseDTO_RequestBody courseToAdd){
+    public Teacher addCourseToCourseListOfTeacher(String teacherId, CourseDTO_RequestBody courseToAdd){
+        Teacher currentTeacher = teacherRepository
+                .findById(teacherId)
+                .orElseThrow(() -> new NoSuchElementException("Teacher with ID:\n"
+                                + teacherId
+                                + "\ndon´t exist."));
+
         Course addCourse = courseRepository.save(new Course(null,
                 courseToAdd.courseName(),
                 courseToAdd.content(),
-                teacherId, new ArrayList<>()));
-    }*/
+                new ArrayList<>(),
+                currentTeacher
+                )
+        );
+        currentTeacher.courseList().add(addCourse);
+        return currentTeacher;
+    }
+
+    public void deleteTeacherById(String teacherId){
+        teacherRepository.deleteById(teacherId);
+    }
+
+    public Teacher deleteCourseFromCourseListOfTeacher(String teacherId, String courseId){
+        Teacher currentTeacher = teacherRepository
+                .findById(teacherId)
+                .orElseThrow(() -> new NoSuchElementException("Teacher with ID:\n"
+                        + teacherId
+                        + "\ndon´t exist."));
+        Course courseToRemove = courseRepository
+                .findById(courseId)
+                .orElseThrow(() -> new NoSuchElementException("Course with ID:\n"
+                        + courseId
+                        + "\ndon´t exist."));
+
+        currentTeacher.courseList().remove(courseToRemove);
+        courseRepository.deleteById(courseId);
+
+        return currentTeacher;
+    }
     
 }
