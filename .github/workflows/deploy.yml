@@ -78,7 +78,7 @@ jobs:
           script: |
             docker stop root
             docker rm root
-            docker run --pull=always --name root -e=MONGO_DB_URI=${{ secrets.MONGODB_URI }} --network vultr --ip 95.179.168.189 --restart always --detach ziso3928/skill-master-backend:latest
+            docker run --pull=always --name root -e=MONGO_DB_URI=${{ secrets.MONGODB_URI }} --network vultr --ip 95.179.168.189 -p 80:8080 --restart always --detach ziso3928/skill-master-backend:latest
             sleep 15s
             docker logs root
 
