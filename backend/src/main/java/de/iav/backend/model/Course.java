@@ -12,6 +12,7 @@ public record Course(
         @MongoId
         String courseId,
         String courseName,
+        String content,
         @DBRef(db = "students")
         List<Student> students,
         @DBRef(db = "teachers")
