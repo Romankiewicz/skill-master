@@ -25,13 +25,16 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
+      - name: Get version
+        run: version=$(mvn --non-recursive help:evaluate -Dexpression=project.version -q -DforceStdout)
+
       - name: Build with maven
         run: mvn -B package --file backend/pom.xml
 
       - uses: actions/upload-artifact@v2
         with:
-          name: backend.jar
-          path: backend/target/backend.jar
+          name: "backend-${version}.jar"
+          path: "backend/target/backend-${version}.jar"
 
 
   push-to-docker-hub:
@@ -40,9 +43,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Get version
+        run: version=$(mvn --non-recursive help:evaluate -Dexpression=project.version -q -DforceStdout)
+
       - uses: actions/download-artifact@v2
         with:
-          name: backend.jar
+          name: "backend-${version}.jar"
           path: backend/target
 
       - name: Login to DockerHub
