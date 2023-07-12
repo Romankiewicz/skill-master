@@ -2,11 +2,13 @@ package de.iav.backend.service;
 
 import de.iav.backend.model.Course;
 import de.iav.backend.model.Student;
+import de.iav.backend.model.StudentDTO_RequestBody;
 import de.iav.backend.repository.CourseRepository;
 import de.iav.backend.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -25,8 +27,16 @@ public class StudentService {
         return studentRepository.findStudentByStudentIdAndLoginName(studentId, loginName);
     }
 
-    public Student addStudent(Student studentToAdd){
-        return studentRepository.save(studentToAdd);
+    public Student addStudent(StudentDTO_RequestBody studentToAdd){
+        return studentRepository.save(
+                new Student(null,
+                        studentToAdd.loginName(),
+                        studentToAdd.firstName(),
+                        studentToAdd.lastName(),
+                        studentToAdd.email(),
+                        new ArrayList<>()
+                )
+        );
     }
 
     public Student updateStudentById(String studentId, Student updateStudent){
