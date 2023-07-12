@@ -68,7 +68,7 @@ jobs:
       - name: Restart docker container
         uses: appleboy/ssh-action@master
         with:
-          host: 95.179.168.189
+          host: ${{ secrets.SERVER_IP }}
           #Set App Name (replace "antimon" with "oxygen", "phosphorus", "mercury")
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_SSH_PASSWORD }}
@@ -86,7 +86,7 @@ jobs:
         uses: jtalk/url-health-check-action@v3
         with:
           #Set App Name (replace "antimon" with "oxygen", "phosphorus", "mercury")
-          url: http://95.179.168.189
+          url: ${{ secrets.SERVER_URL }}
           max-attempts: 3
           retry-delay: 5s
           retry-all: true
