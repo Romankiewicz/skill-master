@@ -78,7 +78,7 @@ jobs:
           script: |
             docker stop root
             docker rm root
-            docker run --pull=always --name root -e=MONGO_DB_URI=${{ secrets.MONGODB_URI }} -p 80:8080 --restart always --detach ziso3928/skill-master-backend:latest
+            docker run --pull=always --name mercury -e=MONGO_DB_URI=${{ secrets.MONGODB_URI }} --network capstones --ip 10.0.2.16 --restart always --detach ziso3928/skill-master-backend:latest
             sleep 15s
             docker logs root
 
