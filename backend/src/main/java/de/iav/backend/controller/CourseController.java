@@ -19,7 +19,7 @@ public class CourseController {
         return courseService.getAllCourses();
     }
 
-    @GetMapping
+    @GetMapping("/search")
     public Course getCourseByCourseName(@RequestParam("courseName") String courseName){
         return courseService.getCourseByCourseName(courseName);
     }

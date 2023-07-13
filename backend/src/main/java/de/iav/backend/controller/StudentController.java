@@ -21,7 +21,7 @@ public class StudentController {
         return studentService.getAllStudents();
     }
 
-    @GetMapping
+    @GetMapping("/search")
     public Student getStudentByIdAndLoginName(@RequestParam(name = "studentId", required = false) String studentId, @RequestParam(name = "loginName", required = false)String loginName){
         return studentService.getStudentByIdAndLoginName(studentId, loginName);
     }
