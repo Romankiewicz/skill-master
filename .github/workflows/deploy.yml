@@ -8,7 +8,12 @@
 
 name: Deploy App
 
-on: push
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
 
@@ -68,7 +73,7 @@ jobs:
       - name: Restart docker container
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SERVER_IP }}
+          host: capstone-project.de
           #Set App Name (replace "antimon" with "oxygen", "phosphorus", "mercury")
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_SSH_PASSWORD }}
@@ -76,11 +81,11 @@ jobs:
           #Set dockerhub project (replace "sergejneuefische/javafx-student-db")
           #Set IP (replace "10.0.2.1" with "10.0.2.14", "10.0.2.15" or "10.0.2.16")
           script: |
-            docker stop root
-            docker rm root
+            docker stop mercury
+            docker rm mercury
             docker run --pull=always --name mercury -e=MONGO_DB_URI=${{ secrets.MONGODB_URI }} --network capstones --ip 10.0.2.16 --restart always --detach ziso3928/skill-master-backend:latest
             sleep 15s
-            docker logs root
+            docker logs mercury
 
       - name: Check the deployed service URL
         uses: jtalk/url-health-check-action@v3
