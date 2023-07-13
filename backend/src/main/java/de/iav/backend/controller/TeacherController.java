@@ -23,7 +23,7 @@ public class TeacherController {
         return teacherService.listAllTeachers();
     }
 
-    @GetMapping
+    @GetMapping("/search")
     public Teacher getTeacherByIdAndLoginName(@RequestParam(name = "teacherId", required = false) String teacherId, @RequestParam(name = "loginName", required = false) String loginName){
         return teacherService.findByLoginNameAndTeacherId(teacherId, loginName);
     }
@@ -52,7 +52,7 @@ public class TeacherController {
         teacherService.deleteTeacherById(teacherId);
     }
 
-    @DeleteMapping("{/teacherId}/course/{courseId}")
+    @DeleteMapping("/{teacherId}/course/{courseId}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public Teacher deleteCourseFromCourseListOfTeacher(@PathVariable("teacherId") String teacherId, @PathVariable("courseId") String courseId){
         return teacherService.deleteCourseFromCourseListOfTeacher(teacherId,courseId);
