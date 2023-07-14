@@ -36,7 +36,13 @@
       <artifactId>junit-jupiter-engine</artifactId>
       <version>${junit.version}</version>
       <scope>test</scope>
-    </dependency>              </dependencies>
+    </dependency>
+    <dependency>
+      <groupId>org.jfxtras</groupId>
+      <artifactId>jmetro</artifactId>
+      <version>11.6.16</version>
+    </dependency>
+  </dependencies>
 
   <build>
         <plugins>

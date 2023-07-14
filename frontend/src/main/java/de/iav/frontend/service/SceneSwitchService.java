@@ -3,9 +3,10 @@ package de.iav.frontend.service;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import jfxtras.styles.jmetro.JMetro;
+import jfxtras.styles.jmetro.Style;
 
 import java.io.IOException;
 
@@ -27,6 +28,9 @@ public class SceneSwitchService {
         // set scene object which should display the content in scene2
         Scene sceneRegView = new Scene(loaderRegView.load());
 
+        JMetro jMetro = new JMetro(Style.LIGHT);
+        jMetro.setScene(sceneRegView);
+
         // set stage which should be shown (newly) on click
         Stage stage = (Stage) (((Node) actionEvent.getSource()).getScene().getWindow());
 
@@ -42,6 +46,9 @@ public class SceneSwitchService {
 
         // set scene object which should display the content in scene2
         Scene scene = new Scene(loader.load());
+
+        JMetro jMetro = new JMetro(Style.LIGHT);
+        jMetro.setScene(scene);
 
         // set stage which should be shown (newly) on click
         Stage stage = (Stage) (((Node) actionEvent.getSource()).getScene().getWindow());
