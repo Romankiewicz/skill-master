@@ -21,7 +21,7 @@ public class LoginController {
     private PasswordField password_TF;
 
     @FXML
-    private ComboBox userTypeSelector_CB;
+    private ComboBox<String> userTypeSelector_CB;
 
     public void initialize() {
 
@@ -29,9 +29,7 @@ public class LoginController {
 
         userTypeSelector_CB.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) ->
-                {
-                    System.out.println(newValue);
-                }
+                        System.out.println(newValue)
         );
     }
 
