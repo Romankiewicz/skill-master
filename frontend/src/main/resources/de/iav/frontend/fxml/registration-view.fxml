@@ -12,6 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.PasswordField?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.iav.frontend.controller.RegistrationViewController">
    <top>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Registrierung" BorderPane.alignment="CENTER">
@@ -58,11 +59,11 @@
                               <Insets left="35.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="passwordTextField">
+                        <PasswordField fx:id="passwordTextField">
                            <HBox.margin>
                               <Insets left="100.0" />
                            </HBox.margin>
-                        </TextField>
+                        </PasswordField>
                      </children>
                   </HBox>
                   <HBox prefHeight="40.0">
