@@ -1,5 +1,7 @@
 package de.iav.frontend.controller;
 
+import de.iav.frontend.service.SceneSwitchService;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -63,8 +65,8 @@ public class RegistrationViewController {
     }
 
     @FXML
-    public void onCancelButtonClick_switchToLoginView(){
-        errorLabel.setText("Jetzt wechsle ich zur Startseite");
+    public void onCancelButtonClick_switchToLoginView(ActionEvent event) throws IOException {
+        SceneSwitchService.getInstance().switchToLoginView(event);
     }
 
 }
