@@ -14,23 +14,21 @@ public class RegistrationViewController {
 
     @FXML
     private TextField passwordTextField;
+
     @FXML
     private TextField firstNameTextField;
+
     @FXML
     private TextField lastNameTextField;
+
     @FXML
     private TextField emailTextField;
+
     @FXML
     private Label errorLabel;
 
     @FXML
     private CheckBox gdprCheckbox;
-
-    @FXML
-    private Button registerButton;
-    public void initialize(){
-        registerButton.setDisable(true);
-    }
 
     @FXML
     public void onRegisterButtonClick_switchToNextView () throws IOException {
@@ -58,15 +56,15 @@ public class RegistrationViewController {
         } else if (!gdprCheckbox.isSelected()) {
             errorLabel.setText("Bitte akzeptiere die Datenschutzerklärung");
             return false;
-        } else {
+        }else {
             errorLabel.setText("");
             return true;
         }
     }
 
     @FXML
-    public void onCancelButtonClick_switchToLogin(){
-        System.out.println("Jetzt wechsle ich zur Startseite");
+    public void onCancelButtonClick_switchToLoginView(){
+        errorLabel.setText("Jetzt wechsle ich zur Startseite");
     }
 
 }
