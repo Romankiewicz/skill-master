@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.AmbientLight?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <Button fx:id="pb_addCourse" layoutX="505.0" layoutY="160.0" mnemonicParsing="false" text="Kurs buchen" />
+            <ComboBox fx:id="dd_courses" layoutX="45.0" layoutY="60.0" opacity="0.75" prefHeight="26.0" prefWidth="478.0" promptText="Kursauswahl" />
+            <AmbientLight layoutX="263.0" layoutY="196.0">
+               <color>
+                  <Color red="0.8605193495750427" green="1.0" />
+               </color>
+            </AmbientLight>
+            <ImageView fitHeight="59.0" fitWidth="99.0" layoutX="501.0">
+               <image>
+                  <Image url="@../../../../png/skillMaster-logo.png" />
+               </image>
+            </ImageView>
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <Button fx:id="pb_logout" layoutX="15.0" layoutY="160.0" mnemonicParsing="false" text="Ausloggen" textAlignment="CENTER" />
+            <ListView fx:id="lv_registredCourses" layoutX="15.0" layoutY="25.0" prefHeight="125.0" prefWidth="562.0" />
+         </children></AnchorPane>
+  </items>
+</SplitPane>

@@ -4,7 +4,6 @@ import de.iav.backend.model.CourseDTO_RequestBody;
 import de.iav.backend.model.Teacher;
 import de.iav.backend.model.TeacherDTO_RequestBody;
 import de.iav.backend.service.TeacherService;
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
