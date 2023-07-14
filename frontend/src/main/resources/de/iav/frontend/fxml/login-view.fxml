@@ -15,6 +15,8 @@
 <?import javafx.scene.text.Text?>
 
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 <FlowPane centerShape="false" prefHeight="337.0" prefWidth="615.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/20.0.1" fx:controller="de.iav.frontend.controller.LoginController">
   <children>
     <VBox prefHeight="337.0" prefWidth="615.0" spacing="20.0">
@@ -65,7 +67,14 @@
                <children>
                   <ToolBar prefHeight="55.0" prefWidth="615.0">
                     <items>
-                        <ComboBox fx:id="userTypeSelector_CB" prefHeight="25.0" prefWidth="211.0" />
+                        <ComboBox fx:id="userTypeSelector_CB" prefHeight="25.0" prefWidth="211.0" value="Log in as student">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Log in as student"/>
+                                    <String fx:value="Log in as teacher"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
                     </items>
                   </ToolBar>
                </children>
