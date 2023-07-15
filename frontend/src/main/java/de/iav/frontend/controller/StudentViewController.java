@@ -10,9 +10,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 
 import java.io.IOException;
-import java.util.List;
-
-import static java.awt.SystemColor.text;
 
 
 public class StudentViewController {
@@ -32,17 +29,18 @@ public class StudentViewController {
     private final SceneSwitchService sceneSwitchService = SceneSwitchService.getInstance();
 
 
-    public void initialize() {
-        List<String> allCourses = studentViewService.getAllCourses();
-        listView.getItems().add(allCourses);
-        listView.getSelectionModel()
-                .selectedItemProperty()
-                .addListener(
-                        (observableValue, course, t1) -> {
-                            text.setText(listView.getSelectionModel().getSelectedItems()course());
-                        }
-                );
-    }
+//    public void initialize() {
+//        List<Course> allCourses = studentViewService.getAllCourses();
+//        listView.getItems()
+//                .add(allCourses);
+//        listView.getSelectionModel()
+//                .selectedItemProperty()
+//                .addListener(
+//                        (observableValue, course, t1) -> {
+//                            text.(listView.getSelectionModel().getSelectedItems()course());
+//                        }
+//                );
+//    }
 
     @FXML
     public void onLogoutButtonClick_switchToLoginView(ActionEvent event) throws IOException {

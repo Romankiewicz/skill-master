@@ -33,9 +33,9 @@ public class RegistrationViewController {
     private CheckBox gdprCheckbox;
 
     @FXML
-    public void onRegisterButtonClick_switchToNextView () throws IOException {
+    public void onRegisterButtonClick_switchToNextView (ActionEvent event) throws IOException {
         if(isEveryTextFieldValid()){
-            errorLabel.setText("Alles palletti");
+            SceneSwitchService.getInstance().switchToStudentView(event);
         }
     }
 
