@@ -1,6 +1,7 @@
 package de.iav.frontend.controller;
 
 import de.iav.frontend.model.Student;
+import de.iav.frontend.service.SceneSwitchService;
 import de.iav.frontend.service.StudentViewService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
