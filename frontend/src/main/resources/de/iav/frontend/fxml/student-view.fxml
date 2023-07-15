@@ -10,12 +10,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.paint.Color?>
 
-<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.iav.frontend.controller.StudentViewController">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
-            <Button fx:id="pb_addCourse" layoutX="505.0" layoutY="160.0" mnemonicParsing="false" text="Kurs buchen" />
-            <ComboBox fx:id="dd_courses" layoutX="45.0" layoutY="60.0" opacity="0.75" prefHeight="26.0" prefWidth="478.0" promptText="Kursauswahl" />
+            <Button fx:id="addCourse_PB" layoutX="505.0" layoutY="160.0" mnemonicParsing="false" text="Kurs buchen" />
+            <ComboBox fx:id="courseList_CB" layoutX="45.0" layoutY="60.0" opacity="0.75" prefHeight="26.0" prefWidth="478.0" promptText="Kursauswahl" />
             <AmbientLight layoutX="263.0" layoutY="196.0">
                <color>
                   <Color red="0.8605193495750427" green="1.0" />
@@ -29,8 +29,8 @@
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
-            <Button fx:id="pb_logout" layoutX="15.0" layoutY="160.0" mnemonicParsing="false" text="Ausloggen" textAlignment="CENTER" />
-            <ListView fx:id="lv_registredCourses" layoutX="15.0" layoutY="25.0" prefHeight="125.0" prefWidth="562.0" />
+            <Button fx:id="logout_PB" layoutX="15.0" layoutY="160.0" mnemonicParsing="false" text="Ausloggen" textAlignment="CENTER" onAction="#onLogoutButtonClick_switchToLoginView"/>
+            <ListView fx:id="registredCourses_LV" layoutX="15.0" layoutY="25.0" prefHeight="125.0" prefWidth="562.0" />
          </children></AnchorPane>
   </items>
 </SplitPane>
