@@ -1,6 +1,7 @@
 package de.iav.frontend.controller;
 
 import de.iav.frontend.model.Student;
+import de.iav.frontend.service.StudentViewService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -31,7 +32,7 @@ public class StudentViewController {
 
 
     public void initialize() {
-        List<String> allCourses = studnetViewService.getAllCourses();
+        List<String> allCourses = studentViewService.getAllCourses();
         listView.getItems().add(allCourses);
         listView.getSelectionModel()
                 .selectedItemProperty()
