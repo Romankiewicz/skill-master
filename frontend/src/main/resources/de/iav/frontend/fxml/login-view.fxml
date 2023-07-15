@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<FlowPane centerShape="false" prefHeight="337.0" prefWidth="615.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/20.0.1" fx:controller="de.iav.frontend.controller.LoginController">
+  <children>
+    <VBox prefHeight="337.0" prefWidth="615.0" spacing="20.0">
+      <children>
+            <HBox prefHeight="0.0" prefWidth="615.0" />
+            <HBox prefHeight="14.0" prefWidth="615.0">
+               <children>
+                  <ImageView fitHeight="135.0" fitWidth="164.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Logo.png" />
+                     </image>
+                  </ImageView>
+              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="        Skill Master Anmeldung" textAlignment="CENTER" wrappingWidth="356.21630859375">
+                <font>
+                  <Font size="30.0" />
+                </font>
+              </Text>
+               </children>
+            </HBox>
+            <HBox prefHeight="0.0" prefWidth="615.0" />
+        <HBox prefHeight="38.0" prefWidth="615.0">
+          <children>
+            <Label fx:id="userName" alignment="CENTER" prefHeight="25.0" prefWidth="261.0" text="Anmeldename">
+              <HBox.margin>
+                <Insets left="20.0" right="20.0" />
+              </HBox.margin>
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+            </Label>
+            <TextField id="firstName" fx:id="userName_TF" />
+          </children>
+        </HBox>
+        <HBox prefHeight="43.0" prefWidth="615.0">
+          <children>
+            <Label fx:id="password" alignment="CENTER" prefHeight="26.0" prefWidth="260.0" text="Passwort">
+              <HBox.margin>
+                <Insets left="20.0" right="20.0" />
+              </HBox.margin>
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+            </Label>
+                  <PasswordField fx:id="password_TF" />
+          </children>
+        </HBox>
+            <HBox prefHeight="0.0" prefWidth="615.0">
+               <children>
+                  <ToolBar prefHeight="55.0" prefWidth="615.0">
+                    <items>
+                        <ComboBox fx:id="userTypeSelector_CB" prefHeight="25.0" prefWidth="211.0" value="Log in as student">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Log in as student"/>
+                                    <String fx:value="Log in as teacher"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                    </items>
+                  </ToolBar>
+               </children>
+            </HBox>
+            <HBox alignment="TOP_RIGHT" prefHeight="0.0" prefWidth="615.0">
+               <children>
+                  <Button alignment="CENTER_RIGHT" mnemonicParsing="false" text="Anmelden">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin></Button>
+                  <Button mnemonicParsing="false" text="Registrieren" onAction="#onClick_switchToRegisterView">
+                     <HBox.margin>
+                        <Insets right="25.0" />
+                     </HBox.margin></Button>
+               </children>
+            </HBox>
+      </children>
+      <padding>
+        <Insets top="20.0" />
+      </padding>
+    </VBox>
+  </children>
+</FlowPane>
