@@ -39,7 +39,7 @@ public class StudentController {
     }
 
     @PutMapping("/{studentId}/course/{courseId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public void addCourseToCourseListOfStudent(@PathVariable(name = "studentId") String studentId, @PathVariable(name = "courseId") String courseId){
         studentService.addCourseToCourseListOfStudent(studentId, courseId);
     }
