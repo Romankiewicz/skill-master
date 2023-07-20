@@ -64,4 +64,41 @@ class TeacherControllerTest {
                 .andExpect(jsonPath("$[0].email").value("dirk@gmx.de"))
                 .andExpect(jsonPath("$[0].courseList.length()").value(0));
     }
+
+    @Test
+    @DirtiesContext
+    void getAllTeachers_whenTeacherWithCourseExists_thenRenternListWithTheTeacher() throws Exception {
+
+        Teacher teacherToAdd = new Teacher("1", "FordProbe",
+                "Dirk", "Stadge",
+                "dirk@gmx.de", new ArrayList<Course>());
+
+        /*mockMvc.perform(MockMvcRequestBuilders.post("/api/teachers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(teacherToAdd)))
+                .andExpect(status().isCreated());*/
+
+        teacherRepository.save(teacherToAdd);
+
+        Course courseOne = new Course("1", "Mathe", "1235", new ArrayList<>(), teacherToAdd);
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/teachers/1/course")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(courseOne)))
+                .andExpect(status().isAccepted());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/teachers"))
+                .andExpect(status().isOk())
+                //.andExpect(jsonPath("$[0].teacherId").value("1"))
+                .andExpect(jsonPath("$[0].loginName").value("FordProbe"))
+                .andExpect(jsonPath("$[0].firstName").value("Dirk"))
+                .andExpect(jsonPath("$[0].lastName").value("Stadge"))
+                .andExpect(jsonPath("$[0].email").value("dirk@gmx.de"))
+                .andExpect(jsonPath("$[0].courseList.length()").value(1))
+                .andExpect(jsonPath("$[0].courseList[0].courseId").value("1235"))
+                .andExpect(jsonPath("$[0].courseList[0].courseName").value("Mathe"))
+                .andExpect(jsonPath("$[0].courseList[0].students.length()").value(0))
+                .andExpect(jsonPath("$[0].courseList[0].teacher").doesNotExist());
+    }
+
+
 }

@@ -15,7 +15,6 @@ public record Course(
         String content,
         @DBRef(db = "students")
         List<Student> students,
-        //@DBRef(db = "teachers")
         Teacher teacher
 ) {
 
