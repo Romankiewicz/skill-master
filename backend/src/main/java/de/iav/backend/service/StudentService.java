@@ -19,15 +19,15 @@ public class StudentService {
     private final StudentRepository studentRepository;
     private final CourseRepository courseRepository;
 
-    public List<Student> getAllStudents(){
+    public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
 
-    public Student getStudentByIdAndLoginName(String studentId,  String loginName){
+    public Student getStudentByIdAndLoginName(String studentId, String loginName) {
         return studentRepository.findStudentByStudentIdAndLoginName(studentId, loginName);
     }
 
-    public Student addStudent(StudentDTO_RequestBody studentToAdd){
+    public Student addStudent(StudentDTO_RequestBody studentToAdd) {
         return studentRepository.save(
                 new Student(null,
                         studentToAdd.loginName(),
@@ -39,7 +39,7 @@ public class StudentService {
         );
     }
 
-    public Student updateStudentById(String studentId, Student updateStudent){
+    public Student updateStudentById(String studentId, Student updateStudent) {
         return studentRepository.save(
                 new Student(
                         studentId,
@@ -52,12 +52,12 @@ public class StudentService {
         );
     }
 
-    public void addCourseToCourseListOfStudent(String studentId, String courseId){
+    public void addCourseToCourseListOfStudent(String studentId, String courseId) {
         Student studentToModify = studentRepository
                 .findById(studentId)
                 .orElseThrow(() -> new NoSuchElementException("Student with ID:\n"
-                + studentId
-                + "\ndon´t exist."));
+                        + studentId
+                        + "\ndon´t exist."));
         Course courseToAdd = courseRepository
                 .findById(courseId)
                 .orElseThrow(() -> new NoSuchElementException("Course with ID:\n"
@@ -66,11 +66,11 @@ public class StudentService {
         studentToModify.courseList().add(courseToAdd);
     }
 
-    public void deleteStudentById(String studentId){
+    public void deleteStudentById(String studentId) {
         studentRepository.deleteById(studentId);
     }
 
-    public void deleteCourseFromCourseListOfStudent(String studentId, String courseId){
+    public void deleteCourseFromCourseListOfStudent(String studentId, String courseId) {
         Student studentToModify = studentRepository
                 .findById(studentId)
                 .orElseThrow(() -> new NoSuchElementException("Student with ID:\n"
