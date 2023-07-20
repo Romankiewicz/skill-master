@@ -72,6 +72,7 @@ public class TeacherService {
                 )
         );
         currentTeacher.courseList().add(addCourse);
+        teacherRepository.save(currentTeacher);
         return currentTeacher;
     }
 
