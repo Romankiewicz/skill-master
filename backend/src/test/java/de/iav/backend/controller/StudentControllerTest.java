@@ -1,5 +1,6 @@
 package de.iav.backend.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.iav.backend.model.Student;
 import de.iav.backend.repository.StudentRepository;
@@ -65,8 +66,9 @@ class StudentControllerTest {
                         .json(objectMapper.writeValueAsString(expectedStudents)));
     }
 
+
     @Test
-//    @DirtiesContext
+    @DirtiesContext
     void getStudentByIdAndLoginName_whenStudentExists() throws Exception {
         Student currentStudent = new Student("1", "MasterChief",
                 "John",
@@ -91,11 +93,50 @@ class StudentControllerTest {
     }
 
     @Test
-    void addStudent() {
+    @DirtiesContext
+    void addStudent() throws Exception {
+        Student currentStudent = new Student("1", "MasterChief",
+                "John",
+                "117",
+                "master.chief@gmail.com",
+                new ArrayList<>());
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/students")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(currentStudent)))
+                .andExpect(status().isCreated());
+
+
     }
 
     @Test
-    void updateStudentById() {
+    void updateStudentById() throws Exception {
+        Student currentStudent = new Student("1",
+                "MasterChief",
+                "John",
+                "117",
+                "master.chief@gmail.com",
+                new ArrayList<>());
+
+        MvcResult response = mockMvc.perform(MockMvcRequestBuilders.post("/api/students")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(currentStudent)))
+                .andExpect(status().isCreated()).andReturn();
+
+        Student responseStudent = (objectMapper.readValue(response.getResponse().getContentAsString(), Student.class));
+
+        Student updateStudent = new Student(responseStudent.studentId(),
+                responseStudent.loginName(),
+                responseStudent.firstName(),
+                responseStudent.lastName(),
+                "master.chief.waffentester@gmail.com",
+                responseStudent.courseList());
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/students/" + responseStudent.studentId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updateStudent)))
+                .andExpect(status().isAccepted())
+                .andExpect(content().json(objectMapper.writeValueAsString(updateStudent)));
     }
 
     @Test
