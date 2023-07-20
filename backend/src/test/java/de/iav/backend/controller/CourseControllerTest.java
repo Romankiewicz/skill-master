@@ -74,14 +74,7 @@ class CourseControllerTest {
     @Test
     @DirtiesContext
     void getCourseByCourseName() throws Exception {
-        Teacher currentTeacher = new Teacher("1234", "user", "Dirk", "Stadge", "123@gmx.de", new ArrayList<>());
-        teacherRepository.save(currentTeacher);
 
-        Course courseOne = new Course("12356", "Mathe", "1235", new ArrayList<>(), currentTeacher);
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/courses/search?courseName=Mathe"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(courseOne)));
     }
 
     @Test

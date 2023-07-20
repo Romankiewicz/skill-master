@@ -71,6 +71,7 @@ public class TeacherService {
                 currentTeacher
                 )
         );
+        currentTeacher.courseList().add(addCourse);
         teacherRepository.save(currentTeacher);
         return currentTeacher;
     }
@@ -91,6 +92,7 @@ public class TeacherService {
                         + courseId
                         + "\ndon´t exist."));
 
+        currentTeacher.courseList().remove(courseToRemove);
         courseRepository.deleteById(courseId);
 
         return currentTeacher;
