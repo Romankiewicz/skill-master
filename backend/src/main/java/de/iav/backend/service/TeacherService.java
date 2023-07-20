@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 
 @Service
@@ -26,6 +27,8 @@ public class TeacherService {
     }
     
     public Teacher findById(String teacherId){
+
+
         return teacherRepository.findById(teacherId)
                                 .orElseThrow(() -> new NoSuchElementException("Teacher with ID:\n"
                                                                                       + teacherId
@@ -58,22 +61,38 @@ public class TeacherService {
     }
 
     public Teacher addCourseToCourseListOfTeacher(String teacherId, CourseDTO_RequestBody courseToAdd){
+
+        Teacher teacherFound = this.findById(teacherId);
+
+
+
         Teacher currentTeacher = teacherRepository
                 .findById(teacherId)
                 .orElseThrow(() -> new NoSuchElementException("Teacher with ID:\n"
-                                + teacherId
-                                + "\ndon´t exist."));
+                        + teacherId
+                        + "\ndon´t exist."));
+
+        List<Course> l = courseRepository.findCoursesByTeacher(currentTeacher);
 
         Course addCourse = courseRepository.save(new Course(null,
-                courseToAdd.courseName(),
-                courseToAdd.content(),
-                new ArrayList<>(),
-                currentTeacher
+                        courseToAdd.courseName(),
+                        courseToAdd.content(),
+                        new ArrayList<>(),
+                        currentTeacher
                 )
         );
-        currentTeacher.courseList().add(addCourse);
-        teacherRepository.save(currentTeacher);
-        return currentTeacher;
+        l.add(addCourse);
+
+        Teacher updatedTeacher = new Teacher(
+                currentTeacher.teacherId(),
+                currentTeacher.loginName(),
+                currentTeacher.firstName(),
+                currentTeacher.lastName(),
+                currentTeacher.email(),
+                l
+        );
+
+        return teacherRepository.save(updatedTeacher);
     }
 
     public void deleteTeacherById(String teacherId){
