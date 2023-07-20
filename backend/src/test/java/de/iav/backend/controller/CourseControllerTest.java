@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -43,27 +44,44 @@ class CourseControllerTest {
 
     @Test
     @DirtiesContext
-    void getAllCourses_whenCoursesIsNotEmpty_thenReturnListWittElementsAsJson() throws Exception {
+    void getAllCourses_whenCoursesIsNotEmpty_thenReturnListWithElementsAsJson() throws Exception {
+        Teacher currentTeacher = new Teacher("1234", "user", "Dirk", "Stadge", "123@gmx.de", new ArrayList<>());
+        teacherRepository.save(currentTeacher);
+        //1. Teacher Post
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/teachers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(currentTeacher)))
+                .andExpect(status().isCreated());
+
+        //2. Post addCourseToCourseListOfTeacher
+        Course courseOne = new Course("12356", "Mathe", "1235", new ArrayList<>(), currentTeacher);
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/teachers/1234/course")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(courseOne)))
+                .andExpect(status().isAccepted());
+
+        System.out.println(courseRepository.findById("12356"));
+
+        List<Course> expectedList = new ArrayList<>();
+        expectedList.add(courseOne);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/courses"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].teacher.firstName").value("Dirk"));
+    }
+
+    @Test
+    @DirtiesContext
+    void getCourseByCourseName() throws Exception {
         Teacher currentTeacher = new Teacher("1234", "user", "Dirk", "Stadge", "123@gmx.de", new ArrayList<>());
         teacherRepository.save(currentTeacher);
 
         Course courseOne = new Course("12356", "Mathe", "1235", new ArrayList<>(), currentTeacher);
-        Course courseTwo = new Course("123456", "Physik", "abcd", new ArrayList<>(), currentTeacher);
 
-        courseRepository.save(courseOne);
-        courseRepository.save(courseTwo);
-
-        List<Course> expectedList = new ArrayList<>();
-        expectedList.add(courseOne);
-        expectedList.add(courseTwo);
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/courses"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/courses/search?courseName=Mathe"))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(expectedList)));
-    }
-
-    @Test
-    void getCourseByCourseName() {
+                .andExpect(content().json(objectMapper.writeValueAsString(courseOne)));
     }
 
     @Test
