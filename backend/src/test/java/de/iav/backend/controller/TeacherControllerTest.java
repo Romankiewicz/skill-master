@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -42,10 +43,16 @@ class TeacherControllerTest {
     @DirtiesContext
     void getAllTeachers_whenTeacherWithoutCourseExists_thenRenternListWithTheTeacher() throws Exception {
 
-        teacherRepository.save(new Teacher("1", "FordProbe",
-                "Dirk", "AAAAAA",
-                "dirk@gmx.de", new ArrayList<Course>()));
+        Teacher teacherToAdd = new Teacher("1", "FordProbe",
+                "Dirk", "Stadge",
+                "dirk@gmx.de", new ArrayList<Course>());
 
+        teacherRepository.save(teacherToAdd);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/teachers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(teacherToAdd)))
+                .andExpect(status().isCreated());
 
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/teachers"))
@@ -53,8 +60,8 @@ class TeacherControllerTest {
                 .andExpect(jsonPath("$[0].teacherId").value("1"))
                 .andExpect(jsonPath("$[0].loginName").value("FordProbe"))
                 .andExpect(jsonPath("$[0].firstName").value("Dirk"))
-                .andExpect(jsonPath("$[0].lastName").value("AAAAAA"))
-                .andExpect(jsonPath("$[0].email").value("dirk@gmx.de"));
-                //.andExpect(jsonPath("$[0].courseList"), hasSize(0));
+                .andExpect(jsonPath("$[0].lastName").value("Stadge"))
+                .andExpect(jsonPath("$[0].email").value("dirk@gmx.de"))
+                .andExpect(jsonPath("$[0].courseList.length()").value(0));
     }
 }
