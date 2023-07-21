@@ -84,7 +84,11 @@ public class StudentService {
                 .orElseThrow(() -> new NoSuchElementException("Course with ID:\n"
                         + courseId
                         + "\ndon´t exist."));
+        courseToDelete.students().remove(studentToModify);
+        courseRepository.save(courseToDelete);
         studentToModify.courses().remove(courseToDelete);
+        studentRepository.save(studentToModify);
+
     }
 
 }
