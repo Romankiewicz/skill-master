@@ -143,6 +143,8 @@ class StudentControllerTest {
                         .content(objectMapper.writeValueAsString(updateStudent)))
                 .andExpect(status().isAccepted())
                 .andExpect(content().json(objectMapper.writeValueAsString(updateStudent)));
+
+
     }
 
     @Test
@@ -217,8 +219,11 @@ class StudentControllerTest {
                         .content(objectMapper.writeValueAsString(updateStudent)))
                 .andExpect(status().isAccepted());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/students"))
-                .andExpect(status().isOk());
+        MvcResult testResponse = mockMvc.perform(MockMvcRequestBuilders.get("/api/students"))
+                .andExpect(status().isOk()).andReturn();
+
+        System.out.println("------------------------------------------------");
+        System.out.println(testResponse.getResponse().getContentAsString());
     }
 
     @Test
