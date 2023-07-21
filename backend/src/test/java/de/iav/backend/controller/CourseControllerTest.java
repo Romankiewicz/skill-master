@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.iav.backend.model.Course;
 import de.iav.backend.model.Teacher;
 import de.iav.backend.repository.CourseRepository;
-import de.iav.backend.repository.TeacherRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -12,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
@@ -25,9 +25,6 @@ class CourseControllerTest {
 
     @Autowired
     private CourseRepository courseRepository;
-
-    @Autowired
-    private TeacherRepository teacherRepository;
 
     @Autowired
     private MockMvc mockMvc;
@@ -45,50 +42,116 @@ class CourseControllerTest {
     @Test
     @DirtiesContext
     void getAllCourses_whenCoursesIsNotEmpty_thenReturnListWithElementsAsJson() throws Exception {
-        Teacher currentTeacher = new Teacher("1234", "user", "Dirk", "Stadge", "123@gmx.de", new ArrayList<>());
-        teacherRepository.save(currentTeacher);
-        //1. Teacher Post
+        Teacher currentTeacher = new Teacher(null, "user", "Dirk", "Stadge", "123@gmx.de", new ArrayList<>());
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/teachers")
+        MvcResult resultTeacher = mockMvc.perform(MockMvcRequestBuilders.post("/api/teachers")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(currentTeacher)))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andReturn();
 
-        //2. Post addCourseToCourseListOfTeacher
-        Course courseOne = new Course("12356", "Mathe", "1235", new ArrayList<>(), currentTeacher);
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/teachers/1234/course")
+        Teacher savedTeacher= objectMapper.readValue(resultTeacher.getResponse().getContentAsString(), Teacher.class);
+
+        Course courseOne = new Course(null, "Mathe", "1235", new ArrayList<>(), savedTeacher);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/teachers/" + savedTeacher.teacherId() + "/course")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(courseOne)))
-                .andExpect(status().isAccepted());
+                .andExpect(status().isAccepted())
+                .andReturn();
 
-        System.out.println(courseRepository.findById("12356"));
+        Teacher updatedTeacher = objectMapper.readValue(result.getResponse().getContentAsString(), Teacher.class);
+        Course expectedCourse = courseRepository.findById(updatedTeacher.courses().get(0).courseId()).orElseThrow();
 
         List<Course> expectedList = new ArrayList<>();
-        expectedList.add(courseOne);
+        expectedList.add(expectedCourse);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/courses"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].teacher.firstName").value("Dirk"));
+                .andExpect(content().json(objectMapper.writeValueAsString(expectedList)));
     }
 
     @Test
     @DirtiesContext
-    void getCourseByCourseName() throws Exception {
-        Teacher currentTeacher = new Teacher("1234", "user", "Dirk", "Stadge", "123@gmx.de", new ArrayList<>());
-        teacherRepository.save(currentTeacher);
+    void getCourseByCourseName_whenCourseWithGivenNameExist_thenExpectStatusOkAndReturnCourseAsJson() throws Exception {
+        Teacher currentTeacher = new Teacher(null, "user", "Dirk", "Stadge", "123@gmx.de", new ArrayList<>());
 
-        Course courseOne = new Course("12356", "Mathe", "1235", new ArrayList<>(), currentTeacher);
+        MvcResult resultTeacher = mockMvc.perform(MockMvcRequestBuilders.post("/api/teachers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(currentTeacher)))
+                        .andExpect(status().isCreated())
+                        .andReturn();
+
+        Teacher savedTeacher= objectMapper.readValue(resultTeacher.getResponse().getContentAsString(), Teacher.class);
+        Course courseOne = new Course(null, "Mathe", "1235", new ArrayList<>(), savedTeacher);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/teachers/" + savedTeacher.teacherId() + "/course")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(courseOne)))
+                .andExpect(status().isAccepted())
+                .andReturn();
+
+        Teacher updatedTeacher = objectMapper.readValue(result.getResponse().getContentAsString(), Teacher.class);
+        Course expectedCourse = courseRepository.findById(updatedTeacher.courses().get(0).courseId()).orElseThrow();
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/courses/search?courseName=Mathe"))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(courseOne)));
+                .andExpect(content().json(objectMapper.writeValueAsString(expectedCourse)));
+
     }
 
     @Test
-    void getCourseById() {
-    }
+    @DirtiesContext
+    void getCourseById_whenCourseWithGivenIdExist_thenExpectStatusOkAndReturnCourseAsJson() throws Exception {
+        Teacher currentTeacher = new Teacher(null, "user", "Dirk", "Stadge", "123@gmx.de", new ArrayList<>());
 
+        MvcResult resultTeacher = mockMvc.perform(MockMvcRequestBuilders.post("/api/teachers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(currentTeacher)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        Teacher savedTeacher= objectMapper.readValue(resultTeacher.getResponse().getContentAsString(), Teacher.class);
+        Course courseOne = new Course(null, "Mathe", "1235", new ArrayList<>(), savedTeacher);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/teachers/" + savedTeacher.teacherId() + "/course")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(courseOne)))
+                .andExpect(status().isAccepted())
+                .andReturn();
+
+        Teacher updatedTeacher = objectMapper.readValue(result.getResponse().getContentAsString(), Teacher.class);
+        Course expectedCourse = courseRepository.findCourseByCourseNameEquals(updatedTeacher.courses().get(0).courseName());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/courses/"+ expectedCourse.courseId() ))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(expectedCourse)));
+    }
     @Test
-    void deleteCourse() {
+    @DirtiesContext
+    void deleteCourse_whenCourseWithIdExists_thenDeleteCourseAndReturnNothing()throws Exception {
+        Teacher currentTeacher = new Teacher(null, "user", "Dirk", "Stadge", "123@gmx.de", new ArrayList<>());
+
+        MvcResult resultTeacher = mockMvc.perform(MockMvcRequestBuilders.post("/api/teachers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(currentTeacher)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        Teacher savedTeacher = objectMapper.readValue(resultTeacher.getResponse().getContentAsString(), Teacher.class);
+        Course courseOne = new Course(null, "Mathe", "1235", new ArrayList<>(), savedTeacher);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/teachers/" + savedTeacher.teacherId() + "/course")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(courseOne)))
+                .andExpect(status().isAccepted())
+                .andReturn();
+
+        Teacher updatedTeacher = objectMapper.readValue(result.getResponse().getContentAsString(), Teacher.class);
+        Course expectedCourse = courseRepository.findCourseByCourseNameEquals(updatedTeacher.courses().get(0).courseName());
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/courses/" + expectedCourse.courseId()))
+                .andExpect(status().isOk());
+
     }
 }
