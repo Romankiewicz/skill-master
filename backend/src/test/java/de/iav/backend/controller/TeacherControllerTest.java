@@ -153,6 +153,7 @@ class TeacherControllerTest {
     }
 
     @Test
+    @DirtiesContext
     void updateTeacher_whenTeacherUpdated_thenReturnTheUpdatedTeacherOnGetRequest() throws Exception {
 
         Teacher teacherToAdd = new Teacher("1", "FordProbe",
@@ -167,6 +168,7 @@ class TeacherControllerTest {
                 .andReturn();
 
         Teacher expectedTeacher = objectMapper.readValue(response.getResponse().getContentAsString(), Teacher.class);
+
         mockMvc.perform(MockMvcRequestBuilders.post("/api/teachers")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(teacherToAdd)))
@@ -194,6 +196,7 @@ class TeacherControllerTest {
     }
 
     @Test
+    @DirtiesContext
     void addCourseToCourseListOfTeacher_whenCourseAdded_thenReturnTheTeacherWithAssignedCourse() throws Exception {
         Teacher teacherToAdd = new Teacher("1", "FordProbe",
                 "Dirk", "Stadge",
@@ -222,6 +225,7 @@ class TeacherControllerTest {
     }
 
     @Test
+    @DirtiesContext
     void deleteTeacherById_whenListWithOneTeacherDeleted_thenReturnEmptyList() throws Exception {
 
         Teacher teacherToAdd = new Teacher("1", "FordProbe",
@@ -237,9 +241,12 @@ class TeacherControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(0));
 
+
+
     }
 
     @Test
+    @DirtiesContext
     void deleteTeacherById_whenListWithMultipleTeacherDeleted_thenReturnListWithoutDeletedTeacher() throws Exception {
 
         Teacher teacherToAdd = new Teacher("1", "FordProbe",
@@ -267,6 +274,7 @@ class TeacherControllerTest {
     }
 
     @Test
+    @DirtiesContext
     void deleteCourseFromCourseListOfTeacher_whenTeacherWithOneCourseDeleted_thenReturnTeacherWithoutCourse() throws Exception {
         Teacher teacherToAdd = new Teacher("1", "FordProbe",
                 "Dirk", "Stadge",
@@ -275,21 +283,26 @@ class TeacherControllerTest {
         teacherRepository.save(teacherToAdd);
 
         Course courseOne = new Course("1", "Mathe", "1235", new ArrayList<>(), teacherToAdd);
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/teachers/1/course")
+
+        MvcResult response = mockMvc.perform(MockMvcRequestBuilders.post("/api/teachers/1/course")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(courseOne)))
-                .andExpect(status().isAccepted());
+                .andExpect(status().isAccepted()).andReturn();
+
+        Teacher expectedTeacher = objectMapper.readValue(response.getResponse().getContentAsString(), Teacher.class);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/teachers"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].loginName").value("FordProbe"))
-                .andExpect(jsonPath("$[0].firstName").value("Dirk"))
-                .andExpect(jsonPath("$[0].lastName").value("Stadge"))
-                .andExpect(jsonPath("$[0].email").value("dirk@gmx.de"))
-                .andExpect(jsonPath("$[0].courses.length()").value(1))
-                .andExpect(jsonPath("$[0].courses[0].courseId").exists())
-                .andExpect(jsonPath("$[0].courses[0].courseName").value("Mathe"))
-                .andExpect(jsonPath("$[0].courses[0].students.length()").value(0))
-                .andExpect(jsonPath("$[0].courses[0].teacher").doesNotExist());
+                .andExpect(jsonPath("$[0].courses.length()").value(1));
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/teachers/1/course/"+expectedTeacher.courses().get(0).courseId()))
+                .andExpect(status().isAccepted());
+
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/teachers"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].loginName").value("FordProbe"))
+                .andExpect(jsonPath("$[0].courses.length()").value(0));
     }
 }

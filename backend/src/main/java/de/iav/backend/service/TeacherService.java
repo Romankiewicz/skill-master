@@ -99,7 +99,7 @@ public class TeacherService {
 
         currentTeacher.courses().remove(courseToRemove);
         courseRepository.deleteById(courseId);
-
+        teacherRepository.save(currentTeacher);
         return currentTeacher;
     }
     
