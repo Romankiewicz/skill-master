@@ -60,7 +60,7 @@ jobs:
           java-version: "20"
           distribution: "temurin"
 
-      - name: Build backend with Maven
+      - name: Test with Maven
         run: mvn --batch-mode test --file backend/pom.xml
 
 

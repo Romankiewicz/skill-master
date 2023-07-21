@@ -53,7 +53,7 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: Build with maven
+      - name: Test with maven
         run: mvn -B test --file backend/pom.xml
 
       - uses: actions/upload-artifact@v2
