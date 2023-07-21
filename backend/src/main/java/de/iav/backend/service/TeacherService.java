@@ -54,7 +54,7 @@ public class TeacherService {
                 updateTeacher.firstName(),
                 updateTeacher.lastName(),
                 updateTeacher.email(),
-                updateTeacher.courseList()));
+                updateTeacher.courses()));
     }
 
     public Teacher addCourseToCourseListOfTeacher(String teacherId, CourseDTO_RequestBody courseToAdd){
@@ -71,7 +71,10 @@ public class TeacherService {
                 currentTeacher
                 )
         );
-        currentTeacher.courseList().add(addCourse);
+        System.out.println(courseRepository.findAll());
+        System.out.println(currentTeacher);
+        currentTeacher.courses().add(addCourse);
+        teacherRepository.save(currentTeacher);
         return currentTeacher;
     }
 
@@ -91,9 +94,9 @@ public class TeacherService {
                         + courseId
                         + "\ndon´t exist."));
 
-        currentTeacher.courseList().remove(courseToRemove);
+        currentTeacher.courses().remove(courseToRemove);
         courseRepository.deleteById(courseId);
-
+        teacherRepository.save(currentTeacher);
         return currentTeacher;
     }
     

@@ -1,5 +1,6 @@
 package de.iav.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
@@ -13,9 +14,10 @@ public record Course(
         String courseId,
         String courseName,
         String content,
-        @DBRef(db = "students")
+        @DBRef (lazy = true)
+        @JsonIgnoreProperties("courses")
         List<Student> students,
-        @DBRef(db = "teachers")
+        @JsonIgnoreProperties("courses")
         Teacher teacher
 ) {
 

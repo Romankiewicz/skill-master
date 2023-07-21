@@ -25,7 +25,7 @@ public class TeacherController {
 
     @GetMapping("/search")
     public Teacher getTeacherByIdAndLoginName(@RequestParam(name = "teacherId", required = false) String teacherId, @RequestParam(name = "loginName", required = false) String loginName){
-        return teacherService.findByLoginNameAndTeacherId(teacherId, loginName);
+        return teacherService.findByLoginNameAndTeacherId( loginName, teacherId);
     }
 
     @PostMapping
