@@ -135,7 +135,7 @@ class StudentControllerTest {
                 responseStudent.firstName(),
                 responseStudent.lastName(),
                 "master.chief.waffentester@gmail.com",
-                responseStudent.courseList());
+                responseStudent.courses());
 
         mockMvc.perform(MockMvcRequestBuilders.put("/api/students/" + responseStudent.studentId())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -187,16 +187,16 @@ class StudentControllerTest {
 
         Teacher responseTeacher = (objectMapper.readValue(teacher.getResponse().getContentAsString(), Teacher.class));
 
-        MvcResult course = mockMvc.perform(MockMvcRequestBuilders.post("/api/"
-                + responseTeacher.getTeacherId() + "/course")
+        MvcResult teacherWithCourse = mockMvc.perform(MockMvcRequestBuilders.post("/api/teachers/"
+                + responseTeacher.teacherId() + "/course")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(currentCourse)))
                 .andExpect(status().isAccepted()).andReturn();
 
-        Course responseCourse = (objectMapper.readValue(course.getResponse().getContentAsString(), Course.class));
+        Teacher responseTeacherWithCourse = (objectMapper.readValue(teacherWithCourse.getResponse().getContentAsString(), Teacher.class));
 
         List<Course> responseCourseList = new ArrayList<>();
-        responseCourseList.add(responseCourse);
+        responseCourseList.add(responseTeacherWithCourse.courses().get(0));
 
         Student updateStudent = new Student(responseStudent.studentId(),
                 responseStudent.loginName(),
@@ -208,7 +208,7 @@ class StudentControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.put("/api/students/"
                                 + responseStudent.studentId()
                                 + "/course/"
-                                + responseCourse.getCourseId())
+                                + responseTeacherWithCourse.courses().get(0).courseId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateStudent)))
                 .andExpect(status().isAccepted())
