@@ -27,7 +27,7 @@ public class Teacher{
 
         String email;
 
-        @DBRef (db = "courses")
-        @JsonIgnoreProperties("teacher")
+        @DBRef
+        @JsonIgnoreProperties("teachers")
         List<Course> courseList;
 }

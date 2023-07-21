@@ -216,8 +216,27 @@ class StudentControllerTest {
     }
 
     @Test
-    void deleteStudentById() {
+    void deleteStudentById() throws Exception{
+
+        Student currentStudent = new Student("1",
+                "MasterChief",
+                "John",
+                "117",
+                "master.chief@gmail.com",
+                new ArrayList<>());
+
+        MvcResult student = mockMvc.perform(MockMvcRequestBuilders.post("/api/students")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(currentStudent)))
+                .andExpect(status().isCreated()).andReturn();
+
+        Student responseStudent = (objectMapper.readValue(student.getResponse().getContentAsString(), Student.class));
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/students/"
+                                + responseStudent.studentId()))
+                .andExpect(status().isNoContent());
     }
+
 
     @Test
     void deleteCourseFromCourseListOfStudent() {

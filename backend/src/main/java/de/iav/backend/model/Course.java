@@ -28,7 +28,5 @@ public class Course{
         @DBRef(db = "students")
         List<Student> students;
 
-        //@DBRef(db = "teachers")
-        @JsonIgnoreProperties("courseList")
         Teacher teacher;
 }
