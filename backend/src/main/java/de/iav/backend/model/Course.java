@@ -14,9 +14,10 @@ public record Course(
         String courseId,
         String courseName,
         String content,
-        @DBRef
+        @DBRef (lazy = true)
         @JsonIgnoreProperties("courses")
         List<Student> students,
+        @JsonIgnoreProperties("courses")
         Teacher teacher
 ) {
 
