@@ -13,7 +13,7 @@
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
-            <Button fx:id="newCourseButton" layoutX="235.0" layoutY="86.0" mnemonicParsing="false" text="Neuen Kurs anlegen" />
+            <Button fx:id="newCourseButton" layoutX="235.0" layoutY="86.0" mnemonicParsing="false" onAction="#onNewCourseButtonClickSwitchToCourseDetailsScene" text="Neuen Kurs anlegen" />
             <AmbientLight layoutX="263.0" layoutY="196.0">
                <color>
                   <Color red="0.8605193495750427" green="1.0" />
@@ -27,8 +27,8 @@
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
-            <Button fx:id="logoutButton" layoutX="15.0" layoutY="160.0" mnemonicParsing="false" onAction="#onLogoutButtonClick_switchToLoginView" text="Ausloggen" textAlignment="CENTER" />
-            <ListView fx:id="listCoursesOfTeacher" layoutX="15.0" layoutY="25.0" prefHeight="125.0" prefWidth="562.0" />
+            <Button fx:id="logoutButton" layoutX="15.0" layoutY="160.0" mnemonicParsing="false" onAction="#onLogoutButtonClickSwitchToLoginScene" text="Ausloggen" textAlignment="CENTER" />
+            <ListView fx:id="coursesOfTeacherListView" layoutX="15.0" layoutY="25.0" prefHeight="125.0" prefWidth="562.0" />
          </children></AnchorPane>
   </items>
 </SplitPane>
