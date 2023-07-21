@@ -47,7 +47,7 @@ public class StudentService {
                         updateStudent.firstName(),
                         updateStudent.lastName(),
                         updateStudent.email(),
-                        updateStudent.courseList()
+                        updateStudent.courses()
                 )
         );
     }
@@ -63,7 +63,10 @@ public class StudentService {
                 .orElseThrow(() -> new NoSuchElementException("Course with ID:\n"
                         + courseId
                         + "\ndon´t exist."));
-        studentToModify.courseList().add(courseToAdd);
+        courseToAdd.students().add(studentToModify);
+        courseRepository.save(courseToAdd);
+        studentToModify.courses().add(courseToAdd);
+        studentRepository.save(studentToModify);
     }
 
     public void deleteStudentById(String studentId) {
@@ -81,7 +84,7 @@ public class StudentService {
                 .orElseThrow(() -> new NoSuchElementException("Course with ID:\n"
                         + courseId
                         + "\ndon´t exist."));
-        studentToModify.courseList().remove(courseToDelete);
+        studentToModify.courses().remove(courseToDelete);
     }
 
 }

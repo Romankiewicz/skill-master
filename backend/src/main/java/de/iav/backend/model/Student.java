@@ -16,9 +16,9 @@ public record Student(
         String firstName,
         String lastName,
         String email,
-        @DBRef(db = "courses")
-        @JsonIgnoreProperties("students")
-        List<Course> courseList
+        @DBRef
+        @JsonIgnoreProperties({"students", "teacher"})
+        List<Course> courses
 
 ) {
 
