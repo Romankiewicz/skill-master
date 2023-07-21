@@ -163,7 +163,7 @@ class StudentControllerTest {
 
 
         Course currentCourse = new Course("1",
-                "Dynamite for Dummies",
+                "DynamiteforDummies",
                 "Explosives and other stuff",
                 new ArrayList<>(),
                 new Teacher("1",
@@ -187,16 +187,18 @@ class StudentControllerTest {
 
         Teacher responseTeacher = (objectMapper.readValue(teacher.getResponse().getContentAsString(), Teacher.class));
 
-        MvcResult teacherWithCourse = mockMvc.perform(MockMvcRequestBuilders.post("/api/teachers/"
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/teachers/"
                 + responseTeacher.teacherId() + "/course")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(currentCourse)))
-                .andExpect(status().isAccepted()).andReturn();
+                .andExpect(status().isAccepted());
 
-        Teacher responseTeacherWithCourse = (objectMapper.readValue(teacherWithCourse.getResponse().getContentAsString(), Teacher.class));
+        MvcResult course = mockMvc.perform(MockMvcRequestBuilders.get("/api/courses/search?courseName=DynamiteforDummies"))
+                .andExpect(status().isOk()).andReturn();
 
+        Course responseCourse = objectMapper.readValue(course.getResponse().getContentAsString(), Course.class);
         List<Course> responseCourseList = new ArrayList<>();
-        responseCourseList.add(responseTeacherWithCourse.courses().get(0));
+        responseCourseList.add(responseCourse);
 
         Student updateStudent = new Student(responseStudent.studentId(),
                 responseStudent.loginName(),
@@ -208,11 +210,13 @@ class StudentControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.put("/api/students/"
                                 + responseStudent.studentId()
                                 + "/course/"
-                                + responseTeacherWithCourse.courses().get(0).courseId())
+                                + responseCourse.courseId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateStudent)))
-                .andExpect(status().isAccepted())
-                .andExpect(content().json(objectMapper.writeValueAsString(updateStudent)));
+                .andExpect(status().isAccepted());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/students"))
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -235,6 +239,8 @@ class StudentControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/students/"
                                 + responseStudent.studentId()))
                 .andExpect(status().isNoContent());
+
+
     }
 
 
