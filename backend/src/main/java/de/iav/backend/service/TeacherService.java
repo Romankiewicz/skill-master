@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 
 @Service
@@ -57,22 +56,18 @@ public class TeacherService {
                 updateTeacher.firstName(),
                 updateTeacher.lastName(),
                 updateTeacher.email(),
-                updateTeacher.courseList()));
+                updateTeacher.courses()));
     }
 
     public Teacher addCourseToCourseListOfTeacher(String teacherId, CourseDTO_RequestBody courseToAdd){
 
         Teacher teacherFound = this.findById(teacherId);
 
-
-
         Teacher currentTeacher = teacherRepository
                 .findById(teacherId)
                 .orElseThrow(() -> new NoSuchElementException("Teacher with ID:\n"
                         + teacherId
                         + "\ndon´t exist."));
-
-        List<Course> l = courseRepository.findCoursesByTeacher(currentTeacher);
 
         Course addCourse = courseRepository.save(new Course(null,
                         courseToAdd.courseName(),
@@ -81,18 +76,9 @@ public class TeacherService {
                         currentTeacher
                 )
         );
-        l.add(addCourse);
 
-        Teacher updatedTeacher = new Teacher(
-                currentTeacher.teacherId(),
-                currentTeacher.loginName(),
-                currentTeacher.firstName(),
-                currentTeacher.lastName(),
-                currentTeacher.email(),
-                l
-        );
-
-        return teacherRepository.save(updatedTeacher);
+        currentTeacher.courses().add(addCourse);
+        return teacherRepository.save(currentTeacher);
     }
 
     public void deleteTeacherById(String teacherId){
@@ -111,7 +97,7 @@ public class TeacherService {
                         + courseId
                         + "\ndon´t exist."));
 
-        currentTeacher.courseList().remove(courseToRemove);
+        currentTeacher.courses().remove(courseToRemove);
         courseRepository.deleteById(courseId);
 
         return currentTeacher;

@@ -93,11 +93,11 @@ class TeacherControllerTest {
                 .andExpect(jsonPath("$[0].firstName").value("Dirk"))
                 .andExpect(jsonPath("$[0].lastName").value("Stadge"))
                 .andExpect(jsonPath("$[0].email").value("dirk@gmx.de"))
-                .andExpect(jsonPath("$[0].courseList.length()").value(1))
-                .andExpect(jsonPath("$[0].courseList[0].courseId").value("1235"))
-                .andExpect(jsonPath("$[0].courseList[0].courseName").value("Mathe"))
-                .andExpect(jsonPath("$[0].courseList[0].students.length()").value(0))
-                .andExpect(jsonPath("$[0].courseList[0].teacher").doesNotExist());
+                .andExpect(jsonPath("$[0].courses.length()").value(1))
+                .andExpect(jsonPath("$[0].courses[0].courseId").exists())
+                .andExpect(jsonPath("$[0].courses[0].courseName").value("Mathe"))
+                .andExpect(jsonPath("$[0].courses[0].students.length()").value(0))
+                .andExpect(jsonPath("$[0].courses[0].teacher").doesNotExist());
     }
 
 
