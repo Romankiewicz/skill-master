@@ -39,7 +39,7 @@
                   <HBox prefHeight="45.0" prefWidth="562.0">
                      <children>
                         <Label prefWidth="100.0" text="Kursname" />
-                        <TextField prefHeight="25.0">
+                        <TextField fx:id="courseNameTextField" prefHeight="25.0">
                            <HBox.margin>
                               <Insets left="60.0" />
                            </HBox.margin>
@@ -52,7 +52,7 @@
                   <HBox prefHeight="45.0" prefWidth="562.0">
                      <children>
                         <Label prefWidth="100.0" text="Inhalt:" />
-                        <TextField prefHeight="25.0">
+                        <TextField fx:id="courseContentTextField" prefHeight="25.0">
                            <HBox.margin>
                               <Insets left="60.0" />
                            </HBox.margin>
@@ -70,9 +70,9 @@
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
-            <Button fx:id="cancelButton" layoutX="15.0" layoutY="160.0" mnemonicParsing="false" onAction="#onLogoutButtonClickSwitchToLoginScene" text="Abbrechen" textAlignment="CENTER" />
+            <Button fx:id="cancelButton" layoutX="15.0" layoutY="160.0" mnemonicParsing="false" onAction="#onCancelButtonClickSwitchToTeacherScene" text="Abbrechen" textAlignment="CENTER" />
             <ListView fx:id="studentsOfCourseListView" layoutX="15.0" layoutY="25.0" prefHeight="125.0" prefWidth="562.0" />
-            <Button fx:id="submitButton" layoutX="498.0" layoutY="160.0" mnemonicParsing="false" onAction="#onSubmitButtonClick" text="Speichern" textAlignment="CENTER" />
+            <Button fx:id="submitButton" layoutX="498.0" layoutY="160.0" mnemonicParsing="false" onAction="#onSubmitButtonClickSwitchToTeacherSceneAndSaveCourse" text="Speichern" textAlignment="CENTER" />
          </children></AnchorPane>
   </items>
 </SplitPane>
