@@ -1,6 +1,5 @@
 package de.iav.backend.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.iav.backend.model.Course;
 import de.iav.backend.model.Student;
@@ -19,7 +18,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -32,6 +32,30 @@ class StudentControllerTest {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
+    private Student currentStudent = new Student("1", "MasterChief",
+            "John",
+            "117",
+            "master.chief@gmail.com",
+            new ArrayList<>());
+
+    private Teacher currentTeacher = new Teacher("1",
+            "SeriousSam",
+            "Samuel",
+            "Stone",
+            "serios.sam@gmail.com",
+            new ArrayList<>());
+
+    private Course currentCourse = new Course("1",
+            "DynamiteforDummies",
+            "Explosives and other stuff",
+            new ArrayList<>(),
+            new Teacher("1",
+                    "SeriousSam",
+                    "Samuel",
+                    "Stone",
+                    "serios.sam@gmail.com",
+                    new ArrayList<>()));
+
     @Test
     @DirtiesContext
     void getAllStudents_whenStudendsIsEmpty() throws Exception {
@@ -39,6 +63,7 @@ class StudentControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/students"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
+
     }
 
     @Test
@@ -46,11 +71,7 @@ class StudentControllerTest {
     void getAllStudents_whenStudentExist() throws Exception {
 
         //        1. Objekt vom Typ Student erzeugen:
-        Student currentStudent = new Student("1", "MasterChief",
-                "John",
-                "117",
-                "master.chief@gmail.com",
-                new ArrayList<>());
+
 
 //        2. Student an "Backend" senden und den Response speichern:
         MvcResult response = mockMvc.perform(MockMvcRequestBuilders.post("/api/students")
@@ -74,18 +95,12 @@ class StudentControllerTest {
     @DirtiesContext
     void getStudentByIdAndLoginName_whenStudentExists() throws Exception {
 
-        Student currentStudent = new Student("1", "MasterChief",
-                "John",
-                "117",
-                "master.chief@gmail.com",
-                new ArrayList<>());
-
         MvcResult response = mockMvc.perform(MockMvcRequestBuilders.post("/api/students")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(currentStudent)))
                 .andExpect(status().isCreated()).andReturn();
 
-        Student expectedStudent= (objectMapper.readValue(response.getResponse().getContentAsString(), Student.class));
+        Student expectedStudent = (objectMapper.readValue(response.getResponse().getContentAsString(), Student.class));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/students/search?studentId="
                         + expectedStudent.studentId()
@@ -100,12 +115,6 @@ class StudentControllerTest {
     @DirtiesContext
     void addStudent() throws Exception {
 
-        Student currentStudent = new Student("1", "MasterChief",
-                "John",
-                "117",
-                "master.chief@gmail.com",
-                new ArrayList<>());
-
         mockMvc.perform(MockMvcRequestBuilders.post("/api/students")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(currentStudent)))
@@ -116,13 +125,6 @@ class StudentControllerTest {
 
     @Test
     void updateStudentById() throws Exception {
-
-        Student currentStudent = new Student("1",
-                "MasterChief",
-                "John",
-                "117",
-                "master.chief@gmail.com",
-                new ArrayList<>());
 
         MvcResult response = mockMvc.perform(MockMvcRequestBuilders.post("/api/students")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -149,33 +151,7 @@ class StudentControllerTest {
 
     @Test
     @DirtiesContext
-    void addCourseToCourseListOfStudent()  throws Exception {
-
-        Student currentStudent = new Student("1",
-                "MasterChief",
-                "John",
-                "117",
-                "master.chief@gmail.com",
-                new ArrayList<>());
-
-        Teacher currentTeacher = new Teacher("1",
-                "SeriousSam",
-                "Samuel",
-                "Stone",
-                "serios.sam@gmail.com",
-                new ArrayList<>());
-
-
-        Course currentCourse = new Course("1",
-                "DynamiteforDummies",
-                "Explosives and other stuff",
-                new ArrayList<>(),
-                new Teacher("1",
-                        "SeriousSam",
-                        "Samuel",
-                        "Stone",
-                        "serios.sam@gmail.com",
-                        new ArrayList<>()));
+    void addCourseToCourseListOfStudent() throws Exception {
 
         MvcResult student = mockMvc.perform(MockMvcRequestBuilders.post("/api/students")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -192,9 +168,9 @@ class StudentControllerTest {
         Teacher responseTeacher = (objectMapper.readValue(teacher.getResponse().getContentAsString(), Teacher.class));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/teachers/"
-                + responseTeacher.teacherId() + "/course")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(currentCourse)))
+                                + responseTeacher.teacherId() + "/course")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(currentCourse)))
                 .andExpect(status().isAccepted());
 
         MvcResult course = mockMvc.perform(MockMvcRequestBuilders.get("/api/courses/search?courseName=DynamiteforDummies"))
@@ -228,14 +204,7 @@ class StudentControllerTest {
 
     @Test
     @DirtiesContext
-    void deleteStudentById() throws Exception{
-
-        Student currentStudent = new Student("1",
-                "MasterChief",
-                "John",
-                "117",
-                "master.chief@gmail.com",
-                new ArrayList<>());
+    void deleteStudentById() throws Exception {
 
         MvcResult student = mockMvc.perform(MockMvcRequestBuilders.post("/api/students")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -245,7 +214,7 @@ class StudentControllerTest {
         Student responseStudent = (objectMapper.readValue(student.getResponse().getContentAsString(), Student.class));
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/students/"
-                                + responseStudent.studentId()))
+                        + responseStudent.studentId()))
                 .andExpect(status().isNoContent());
 
 
@@ -255,32 +224,6 @@ class StudentControllerTest {
     @Test
     @DirtiesContext
     void deleteCourseFromCourseListOfStudent() throws Exception {
-
-        Student currentStudent = new Student("1",
-                "MasterChief",
-                "John",
-                "117",
-                "master.chief@gmail.com",
-                new ArrayList<>());
-
-        Teacher currentTeacher = new Teacher("1",
-                "SeriousSam",
-                "Samuel",
-                "Stone",
-                "serios.sam@gmail.com",
-                new ArrayList<>());
-
-
-        Course currentCourse = new Course("1",
-                "DynamiteforDummies",
-                "Explosives and other stuff",
-                new ArrayList<>(),
-                new Teacher("1",
-                        "SeriousSam",
-                        "Samuel",
-                        "Stone",
-                        "serios.sam@gmail.com",
-                        new ArrayList<>()));
 
         MvcResult student = mockMvc.perform(MockMvcRequestBuilders.post("/api/students")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -325,13 +268,9 @@ class StudentControllerTest {
                 .andExpect(status().isAccepted());
 
 
-
-
-
-
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/students/"
-                + responseStudent.studentId()
-                + "/course/" + responseCourse.courseId()))
+                        + responseStudent.studentId()
+                        + "/course/" + responseCourse.courseId()))
                 .andExpect(status().isNoContent());
 
     }
