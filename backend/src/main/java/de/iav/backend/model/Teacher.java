@@ -1,5 +1,6 @@
 package de.iav.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
@@ -15,8 +16,9 @@ public record Teacher(
         String firstName,
         String lastName,
         String email,
-        @DBRef (db = "courses")
-        List<Course> courseList
+        @DBRef
+        @JsonIgnoreProperties("teacher")
+        List<Course> courses
 ) {
 
 }
