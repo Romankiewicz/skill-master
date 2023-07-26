@@ -3,7 +3,7 @@ package de.iav.backend.security;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "appUsers")
+@Document(collection = "users")
 public record AppUser(
         String id,
         String username,
