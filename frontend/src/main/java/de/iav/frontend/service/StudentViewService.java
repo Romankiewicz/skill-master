@@ -32,9 +32,12 @@ public class StudentViewService {
 
         String loginName = AuthenticationService.getInstance().getUsername();
 
+        System.out.println("LLLLLLL÷::::::" + loginName);
+
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(STUDENTS_URL_BACKEND + "/api/students/search?loginName=" + loginName))
                 .header("Accept", "application/json")
+                .header("Cookie", "JSESSIONID=" + AuthenticationService.getInstance().getSessionId())
                 .build();
 
         Student result = studentClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
