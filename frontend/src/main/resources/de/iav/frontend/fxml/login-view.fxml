@@ -81,7 +81,7 @@
             </HBox>
             <HBox alignment="TOP_RIGHT" prefHeight="0.0" prefWidth="615.0">
                <children>
-                  <Button alignment="CENTER_RIGHT" mnemonicParsing="false" text="Anmelden">
+                  <Button alignment="CENTER_RIGHT" mnemonicParsing="false" text="Anmelden" onAction="#onClick_login">
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin></Button>
