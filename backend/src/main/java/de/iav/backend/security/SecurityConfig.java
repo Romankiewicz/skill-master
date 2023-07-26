@@ -27,9 +27,18 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .authorizeHttpRequests(c -> {
-                    c.requestMatchers(HttpMethod.POST, "/api/students").authenticated();
+                    c.requestMatchers(HttpMethod.POST, "/api/students/**").authenticated();
                     c.requestMatchers(HttpMethod.PUT, "/api/students/**").authenticated();
-                    c.requestMatchers(HttpMethod.DELETE, "/api/students/**").hasRole("ADMIN");
+                    c.requestMatchers(HttpMethod.GET, "/api/students/**").authenticated();
+                    c.requestMatchers(HttpMethod.DELETE, "/api/students/**").authenticated();
+                    c.requestMatchers(HttpMethod.POST, "/api/teachers/**").authenticated();
+                    c.requestMatchers(HttpMethod.PUT, "/api/teachers/**").authenticated();
+                    c.requestMatchers(HttpMethod.GET, "/api/teachers/**").authenticated();
+                    c.requestMatchers(HttpMethod.DELETE, "/api/teachers/**").authenticated();
+                    c.requestMatchers(HttpMethod.POST, "/api/courses/**").authenticated();
+                    c.requestMatchers(HttpMethod.PUT, "/api/courses/**").authenticated();
+                    c.requestMatchers(HttpMethod.GET, "/api/courses/**").authenticated();
+                    c.requestMatchers(HttpMethod.DELETE, "/api/courses/**").authenticated();
                     c.anyRequest().permitAll();
                 })
                 .httpBasic(Customizer.withDefaults())
