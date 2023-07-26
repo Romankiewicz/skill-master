@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,14 +30,14 @@ public class AppUserService implements UserDetailsService {
                 .build();
     }
 
-    public AppUserResponse createUser(AppUserRequest appUserRequest){
+    public AppUserResponse createUser(AppUserRequest appUserRequest, AppUserRole role){
 
         AppUser userToSave = new AppUser(
                 null,
                 appUserRequest.loginName(),
                 passwordEncoder.encode(appUserRequest.password()),
                 appUserRequest.email(),
-                appUserRequest.role()
+                role
         );
 
         AppUser savedUser = appUserRepository.save(userToSave);

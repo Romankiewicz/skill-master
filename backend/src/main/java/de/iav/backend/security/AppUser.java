@@ -6,8 +6,9 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Document(collection = "users")
 public record AppUser(
-
         String id,
+
+        // TODO: Make this unique
         String loginName,
         String password,
         @Indexed(unique = true)

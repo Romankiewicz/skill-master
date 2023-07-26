@@ -27,9 +27,14 @@ public class AppUserController {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
-    @PostMapping("/register")
-    public AppUserResponse register(@RequestBody AppUserRequest appUserRequest){
-        return appUserService.createUser(appUserRequest);
+    @PostMapping("/register/student")
+    public AppUserResponse registerStudent(@RequestBody AppUserRequest appUserRequest){
+        return appUserService.createUser(appUserRequest, AppUserRole.STUDENT);
+    }
+
+    @PostMapping("/register/teacher")
+    public AppUserResponse registerTeacher(@RequestBody AppUserRequest appUserRequest){
+        return appUserService.createUser(appUserRequest, AppUserRole.TEACHER);
     }
 
     @PostMapping("/logout")

@@ -27,8 +27,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .authorizeHttpRequests(customizer -> {
-                    //customizer.requestMatchers(HttpMethod.GET, "").permitAll();
-                    /*
+                    customizer.requestMatchers(HttpMethod.GET, "").permitAll();
                     customizer.requestMatchers(HttpMethod.POST, "/api/students/**").authenticated();
                     customizer.requestMatchers(HttpMethod.PUT, "/api/students/**").authenticated();
                     customizer.requestMatchers(HttpMethod.GET, "/api/students/**").authenticated();
@@ -42,7 +41,7 @@ public class SecurityConfig {
                     customizer.requestMatchers(HttpMethod.GET, "/api/courses/**").authenticated();
                     customizer.requestMatchers(HttpMethod.DELETE, "/api/courses/**").authenticated();
                     customizer.requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll();
-                    customizer.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll();*/
+                    customizer.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll();
                     customizer.anyRequest().permitAll();
                 })
                 .httpBasic(Customizer.withDefaults())
