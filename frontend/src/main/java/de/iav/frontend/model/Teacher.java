@@ -10,7 +10,7 @@ public record Teacher(
         String firstName,
         String lastName,
         String email,
-        List<Course> courseList
+        List<Course> courses
 ) {
 
 }

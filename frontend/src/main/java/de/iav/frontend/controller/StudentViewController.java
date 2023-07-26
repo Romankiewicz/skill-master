@@ -1,5 +1,6 @@
 package de.iav.frontend.controller;
 
+import de.iav.frontend.model.Course;
 import de.iav.frontend.model.Student;
 import de.iav.frontend.service.SceneSwitchService;
 import de.iav.frontend.service.StudentViewService;
@@ -10,6 +11,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 
 import java.io.IOException;
+import java.util.List;
 
 
 public class StudentViewController {
@@ -19,9 +21,7 @@ public class StudentViewController {
     @FXML
     private Button addCourse;
     @FXML
-    private ComboBox<String> courseListe;
-    @FXML
-    private ListView<Student> listView;
+    private ListView<Course> registredCourses_LV;
 
     @FXML
     private final StudentViewService studentViewService = StudentViewService.getInstance();
@@ -30,17 +30,13 @@ public class StudentViewController {
 
 
     public void initialize() {
-        /*List<Course> allCourses = studentViewService.getAllCourses();
-        listView.getItems()
-                .add(allCourses);
-        listView.getSelectionModel()
-                .selectedItemProperty()
-                .addListener(
-                        (observableValue, course, t1) -> {
-                            text.(listView.getSelectionModel().getSelectedItems()course());
-                        }
-                );*/
-        System.out.println(StudentViewService.getInstance().getLoginStudent());
+
+        Student loginStudent = StudentViewService.getInstance().getLoginStudent();
+
+        List<Course> allCourses = loginStudent.courses();
+
+        registredCourses_LV.getItems().addAll(allCourses);
+
     }
 
     @FXML
