@@ -35,6 +35,6 @@ public class TeacherViewController {
 
     @FXML
     public void onNewCourseButtonClickSwitchToCourseDetailsScene(ActionEvent event) throws IOException{
-        SceneSwitchService.getInstance().switchToLoginView(event);
+        SceneSwitchService.getInstance().switchToCourseView(event);
     }
 }
