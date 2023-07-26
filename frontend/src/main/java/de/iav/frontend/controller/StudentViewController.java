@@ -24,6 +24,9 @@ public class StudentViewController {
     private ListView<Course> registredCourses_LV;
 
     @FXML
+    private ComboBox<Course> courseList_CB;
+
+    @FXML
     private final StudentViewService studentViewService = StudentViewService.getInstance();
     @FXML
     private final SceneSwitchService sceneSwitchService = SceneSwitchService.getInstance();
@@ -32,10 +35,11 @@ public class StudentViewController {
     public void initialize() {
 
         Student loginStudent = StudentViewService.getInstance().getLoginStudent();
+        List<Course> allCoursesOfStudent = loginStudent.courses();
+        registredCourses_LV.getItems().addAll(allCoursesOfStudent);
 
-        List<Course> allCourses = loginStudent.courses();
-
-        registredCourses_LV.getItems().addAll(allCourses);
+        List<Course> allCourses = StudentViewService.getInstance().getAllCourses();
+        courseList_CB.getItems().addAll(allCourses);
 
     }
 
