@@ -34,7 +34,7 @@
                <children>
                   <HBox prefHeight="20.0" prefWidth="200.0">
                      <children>
-                        <ComboBox fx:id="selectRoleComboBox" prefHeight="25.0" prefWidth="211.0" value="Log in as student">
+                        <ComboBox fx:id="selectRoleComboBox" prefHeight="25.0" prefWidth="211.0" value="Register as student">
                            <items>
                               <FXCollections fx:factory="observableArrayList">
                                  <String fx:value="Register as student" />
