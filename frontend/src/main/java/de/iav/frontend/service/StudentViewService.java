@@ -82,6 +82,17 @@ public class StudentViewService {
         }
     }
 
+    private Course mapToCourse(String responseBody) {
+
+        System.out.println(responseBody);
+
+        try {
+            return objectMapper.readValue(responseBody, Course.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private List<Course> mapToCourseList(String responseBody) {
         try {
             return objectMapper.readValue(responseBody, new TypeReference<>() {

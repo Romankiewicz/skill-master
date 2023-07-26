@@ -1,7 +1,7 @@
 package de.iav.frontend.security;
 
 public record AppUserRequest(
-        String username,
+        String loginName,
         String password,
         String email
 ) {
