@@ -62,9 +62,12 @@ public class LoginController {
                 ! AuthenticationService.getInstance().getUsername().equals("anonymousUser")
         )
         {
+            SceneSwitchService.getInstance().switchToStudentView(event);
             System.out.println("LOGIN NAME IS _______________ " + AuthenticationService.getInstance().getUsername());
         }
         else {
+            // TODO show in label (red)
+            System.out.println("LOGIN NAME IS _______________ " + AuthenticationService.getInstance().getUsername());
             System.out.println("LOGIN FAILED! USER NAME OR LOGIN INCORRECT");
         }
     }

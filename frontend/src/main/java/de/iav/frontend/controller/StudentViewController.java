@@ -29,18 +29,19 @@ public class StudentViewController {
     private final SceneSwitchService sceneSwitchService = SceneSwitchService.getInstance();
 
 
-//    public void initialize() {
-//        List<Course> allCourses = studentViewService.getAllCourses();
-//        listView.getItems()
-//                .add(allCourses);
-//        listView.getSelectionModel()
-//                .selectedItemProperty()
-//                .addListener(
-//                        (observableValue, course, t1) -> {
-//                            text.(listView.getSelectionModel().getSelectedItems()course());
-//                        }
-//                );
-//    }
+    public void initialize() {
+        /*List<Course> allCourses = studentViewService.getAllCourses();
+        listView.getItems()
+                .add(allCourses);
+        listView.getSelectionModel()
+                .selectedItemProperty()
+                .addListener(
+                        (observableValue, course, t1) -> {
+                            text.(listView.getSelectionModel().getSelectedItems()course());
+                        }
+                );*/
+        System.out.println(StudentViewService.getInstance().getLoginStudent());
+    }
 
     @FXML
     public void onLogoutButtonClick_switchToLoginView(ActionEvent event) throws IOException {
