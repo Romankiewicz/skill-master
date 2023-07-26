@@ -22,7 +22,7 @@ public class AppUserController {
         return "anonymousUser";
     }
 
-    @PostMapping("/getloginname")
+    @PostMapping("/login")
     public String login(Principal principal){
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
