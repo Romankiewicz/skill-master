@@ -66,4 +66,19 @@ public class SceneSwitchService {
         stage.show();
     }
 
+    public void switchToTeacherView(ActionEvent actionEvent) throws IOException {
+        // load layout of scene
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/de/iav/frontend/fxml/teacher-view.fxml"));
+
+        // set scene object which should display the content in scene2
+        Scene scene = new Scene(loader.load());
+
+        // set stage which should be shown (newly) on click
+        Stage stage = (Stage) (((Node) actionEvent.getSource()).getScene().getWindow());
+
+        // set scene2 to stage and show it
+        stage.setScene(scene);
+        stage.show();
+    }
+
 }

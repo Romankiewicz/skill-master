@@ -32,7 +32,7 @@ public class StudentViewService {
 
         String loginName = AuthenticationService.getInstance().getUsername();
 
-        System.out.println("LLLLLLL÷::::::" + loginName);
+        System.out.println("StudentViewService.getLoginStudent()÷::::::" + loginName);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(STUDENTS_URL_BACKEND + "/api/students/search?loginName=" + loginName))

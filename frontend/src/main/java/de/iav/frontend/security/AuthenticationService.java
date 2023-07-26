@@ -148,4 +148,6 @@ public class AuthenticationService {
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
     }
+
+    public HttpClient getClient(){return this.client;}
 }

@@ -1,5 +1,6 @@
 package de.iav.frontend.controller;
 
+import de.iav.frontend.model.Student;
 import de.iav.frontend.security.AppUserRole;
 import de.iav.frontend.security.AuthenticationService;
 import de.iav.frontend.service.SceneSwitchService;
@@ -14,6 +15,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 public class LoginController {
 
@@ -28,13 +32,16 @@ public class LoginController {
 
     private AppUserRole selectedRole;
 
+    private String STUDENTS_URL_BACKEND = "http://localhost:8080";
+
     public void initialize() {
 
         System.out.println(userTypeSelector_CB.getValue());
 
+        selectedRole = AppUserRole.STUDENT;
+
         userTypeSelector_CB.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
-                    System.out.println(newValue);
 
                     if (newValue.equals("Log in as student")){
                         this.selectedRole = AppUserRole.STUDENT;
@@ -62,8 +69,48 @@ public class LoginController {
                 ! AuthenticationService.getInstance().getUsername().equals("anonymousUser")
         )
         {
-            SceneSwitchService.getInstance().switchToStudentView(event);
             System.out.println("LOGIN NAME IS _______________ " + AuthenticationService.getInstance().getUsername());
+            if (selectedRole == AppUserRole.STUDENT){
+
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create(STUDENTS_URL_BACKEND + "/api/students/search?loginName=" + loginName))
+                        .header("Accept", "application/json")
+                        .header("Cookie", "JSESSIONID=" + AuthenticationService.getInstance().getSessionId())
+                        .build();
+
+                var response = AuthenticationService.getInstance().getClient().sendAsync(request, HttpResponse.BodyHandlers.ofString());
+                int statusCode = response.join().statusCode();
+
+                if (statusCode==200 && response.join().body().length() > 0) {
+                    SceneSwitchService.getInstance().switchToStudentView(event);
+                } else {
+                    // TODO show in label (red)
+                    System.out.println("LOGIN FAILED! PROBABLY ROLE INCORRECT");
+                }
+
+
+            }
+            else if (selectedRole == AppUserRole.TEACHER){
+
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create(STUDENTS_URL_BACKEND + "/api/teachers/search?loginName=" + loginName))
+                        .header("Accept", "application/json")
+                        .header("Cookie", "JSESSIONID=" + AuthenticationService.getInstance().getSessionId())
+                        .build();
+
+                var response = AuthenticationService.getInstance().getClient().sendAsync(request, HttpResponse.BodyHandlers.ofString());
+
+                int statusCode = response.join().statusCode();
+
+                if (statusCode==200 && response.join().body().length() > 0) {
+                    SceneSwitchService.getInstance().switchToTeacherView(event);
+                } else {
+                    // TODO show in label (red)
+                    System.out.println("LOGIN FAILED! PROBABLY ROLE INCORRECT");
+                }
+
+            }
+
         }
         else {
             // TODO show in label (red)
