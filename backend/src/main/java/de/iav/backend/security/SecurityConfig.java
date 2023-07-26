@@ -25,21 +25,22 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
-                .authorizeHttpRequests(c -> {
-                    c.requestMatchers(HttpMethod.POST, "/api/students/**").authenticated();
-                    c.requestMatchers(HttpMethod.PUT, "/api/students/**").authenticated();
-                    c.requestMatchers(HttpMethod.GET, "/api/students/**").authenticated();
-                    c.requestMatchers(HttpMethod.DELETE, "/api/students/**").authenticated();
-                    c.requestMatchers(HttpMethod.POST, "/api/teachers/**").authenticated();
-                    c.requestMatchers(HttpMethod.PUT, "/api/teachers/**").authenticated();
-                    c.requestMatchers(HttpMethod.GET, "/api/teachers/**").authenticated();
-                    c.requestMatchers(HttpMethod.DELETE, "/api/teachers/**").authenticated();
-                    c.requestMatchers(HttpMethod.POST, "/api/courses/**").authenticated();
-                    c.requestMatchers(HttpMethod.PUT, "/api/courses/**").authenticated();
-                    c.requestMatchers(HttpMethod.GET, "/api/courses/**").authenticated();
-                    c.requestMatchers(HttpMethod.DELETE, "/api/courses/**").authenticated();
-                    c.anyRequest().permitAll();
+                .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
+                .authorizeHttpRequests(customizer -> {
+                    customizer.requestMatchers(HttpMethod.POST, "").permitAll();
+                    customizer.requestMatchers(HttpMethod.POST, "/api/students/**").authenticated();
+                    customizer.requestMatchers(HttpMethod.PUT, "/api/students/**").authenticated();
+                    customizer.requestMatchers(HttpMethod.GET, "/api/students/**").authenticated();
+                    customizer.requestMatchers(HttpMethod.DELETE, "/api/students/**").authenticated();
+                    customizer.requestMatchers(HttpMethod.POST, "/api/teachers/**").authenticated();
+                    customizer.requestMatchers(HttpMethod.PUT, "/api/teachers/**").authenticated();
+                    customizer.requestMatchers(HttpMethod.GET, "/api/teachers/**").authenticated();
+                    customizer.requestMatchers(HttpMethod.DELETE, "/api/teachers/**").authenticated();
+                    customizer.requestMatchers(HttpMethod.POST, "/api/courses/**").authenticated();
+                    customizer.requestMatchers(HttpMethod.PUT, "/api/courses/**").authenticated();
+                    customizer.requestMatchers(HttpMethod.GET, "/api/courses/**").authenticated();
+                    customizer.requestMatchers(HttpMethod.DELETE, "/api/courses/**").authenticated();
+                    customizer.anyRequest().authenticated();
                 })
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(AbstractHttpConfigurer::disable)
