@@ -20,7 +20,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
     }
 
     @Bean
@@ -29,12 +29,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .authorizeHttpRequests(customizer -> {
-                    customizer.requestMatchers(HttpMethod.GET, "").permitAll();
+                    //customizer.requestMatchers(HttpMethod.GET, "").permitAll();
                     customizer.requestMatchers(HttpMethod.POST, "/api/students/**").authenticated();
                     customizer.requestMatchers(HttpMethod.PUT, "/api/students/**").authenticated();
                     customizer.requestMatchers(HttpMethod.GET, "/api/students/**").authenticated();
                     customizer.requestMatchers(HttpMethod.DELETE, "/api/students/**").authenticated();
-                    customizer.requestMatchers(HttpMethod.GET, "/api/teachers").authenticated();
                     customizer.requestMatchers(HttpMethod.POST, "/api/teachers/**").authenticated();
                     customizer.requestMatchers(HttpMethod.PUT, "/api/teachers/**").authenticated();
                     customizer.requestMatchers(HttpMethod.GET, "/api/teachers/**").authenticated();
@@ -43,7 +42,9 @@ public class SecurityConfig {
                     customizer.requestMatchers(HttpMethod.PUT, "/api/courses/**").authenticated();
                     customizer.requestMatchers(HttpMethod.GET, "/api/courses/**").authenticated();
                     customizer.requestMatchers(HttpMethod.DELETE, "/api/courses/**").authenticated();
-                    customizer.anyRequest().authenticated();
+                    customizer.requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll();
+                    customizer.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll();
+                    customizer.anyRequest().permitAll();
                 })
                 .httpBasic(Customizer.withDefaults())
                 //.formLogin(AbstractHttpConfigurer::disable)
