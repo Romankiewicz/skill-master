@@ -9,7 +9,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity
@@ -18,7 +20,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
+        return NoOpPasswordEncoder.getInstance();
     }
 
     @Bean
@@ -27,11 +29,12 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .authorizeHttpRequests(customizer -> {
-                    customizer.requestMatchers(HttpMethod.POST, "").permitAll();
+                    customizer.requestMatchers(HttpMethod.GET, "").permitAll();
                     customizer.requestMatchers(HttpMethod.POST, "/api/students/**").authenticated();
                     customizer.requestMatchers(HttpMethod.PUT, "/api/students/**").authenticated();
                     customizer.requestMatchers(HttpMethod.GET, "/api/students/**").authenticated();
                     customizer.requestMatchers(HttpMethod.DELETE, "/api/students/**").authenticated();
+                    customizer.requestMatchers(HttpMethod.GET, "/api/teachers").authenticated();
                     customizer.requestMatchers(HttpMethod.POST, "/api/teachers/**").authenticated();
                     customizer.requestMatchers(HttpMethod.PUT, "/api/teachers/**").authenticated();
                     customizer.requestMatchers(HttpMethod.GET, "/api/teachers/**").authenticated();
@@ -43,9 +46,8 @@ public class SecurityConfig {
                     customizer.anyRequest().authenticated();
                 })
                 .httpBasic(Customizer.withDefaults())
-                .formLogin(AbstractHttpConfigurer::disable)
-                .logout(Customizer.withDefaults())
+                //.formLogin(AbstractHttpConfigurer::disable)
+                //.logout(Customizer.withDefaults())
                 .build();
     }
-
 }

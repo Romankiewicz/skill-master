@@ -5,11 +5,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")
 public record AppUser(
-        String id,
-        String username,
+        String loginName,
         String password,
         @Indexed(unique = true)
         String email,
-        String role
+        AppUserRole role
 ) {
 }

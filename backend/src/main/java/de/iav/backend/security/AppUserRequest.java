@@ -1,8 +1,7 @@
 package de.iav.backend.security;
 
-public record AppUserResponse(
+public record AppUserRequest(
         String loginName,
-        String username,
         String email,
         AppUserRole role
 ) {
