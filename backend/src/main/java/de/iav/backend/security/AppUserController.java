@@ -2,12 +2,11 @@ package de.iav.backend.security;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-//import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
-/*
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
@@ -39,4 +38,4 @@ public class AppUserController {
         SecurityContextHolder.clearContext();
         return "anonymousUser";
     }
-}*/
+}
