@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -36,7 +37,8 @@ class TeacherControllerTest {
 
     @Test
     @DirtiesContext
-    void getAllTeachers_whenNoTeacherExists_thenRenternEmptyList() throws Exception {
+    @WithMockUser
+    void getAllTeachers_whenNoTeacherExistsLoggedIn_thenRenternEmptyList() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/teachers"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
@@ -44,7 +46,8 @@ class TeacherControllerTest {
 
     @Test
     @DirtiesContext
-    void getAllTeachers_whenTeacherWithoutCourseExists_thenRenternListWithTheTeacher() throws Exception {
+    @WithMockUser
+    void getAllTeachers_whenTeacherWithoutCourseExistsLoggedIn_thenRenternListWithTheTeacher() throws Exception {
 
         Teacher teacherToAdd = new Teacher("1", "FordProbe",
                 "Dirk", "Stadge",
@@ -71,7 +74,8 @@ class TeacherControllerTest {
 
     @Test
     @DirtiesContext
-    void getAllTeachers_whenTeacherWithCourseExists_thenRenternListWithTheTeacher() throws Exception {
+    @WithMockUser
+    void getAllTeachers_whenTeacherWithCourseExistsLoggedIn_thenRenternListWithTheTeacher() throws Exception {
 
         Teacher teacherToAdd = new Teacher("1", "FordProbe",
                 "Dirk", "Stadge",
@@ -102,7 +106,8 @@ class TeacherControllerTest {
 
     @Test
     @DirtiesContext
-    void getTeacherByIdAndLoginName_whenTeacherAndIdGiven_thenReturnThatTeacher() throws Exception {
+    @WithMockUser
+    void getTeacherByIdAndLoginName_whenTeacherAndIdGivenLoggedIn_thenReturnThatTeacher() throws Exception {
         Teacher teacherToAdd = new Teacher("1", "FordProbe",
                 "Dirk", "Stadge",
                 "dirk@gmx.de", new ArrayList<Course>());
@@ -130,7 +135,8 @@ class TeacherControllerTest {
 
     @Test
     @DirtiesContext
-    void addTeacher_whenTeacherAdded_thenTeacherCouldBeFoundByGetRequest() throws Exception {
+    @WithMockUser
+    void addTeacher_whenTeacherAddedLoggedIn_thenTeacherCouldBeFoundByGetRequest() throws Exception {
 
         Teacher teacherToAdd = new Teacher("1", "FordProbe",
                 "Dirk", "Stadge",
@@ -154,7 +160,8 @@ class TeacherControllerTest {
 
     @Test
     @DirtiesContext
-    void updateTeacher_whenTeacherUpdated_thenReturnTheUpdatedTeacherOnGetRequest() throws Exception {
+    @WithMockUser
+    void updateTeacher_whenTeacherUpdatedLoggedIn_thenReturnTheUpdatedTeacherOnGetRequest() throws Exception {
 
         Teacher teacherToAdd = new Teacher("1", "FordProbe",
                 "Dirk", "Stadge",
@@ -197,7 +204,8 @@ class TeacherControllerTest {
 
     @Test
     @DirtiesContext
-    void addCourseToCourseListOfTeacher_whenCourseAdded_thenReturnTheTeacherWithAssignedCourse() throws Exception {
+    @WithMockUser
+    void addCourseToCourseListOfTeacher_whenCourseAddedLoggedIn_thenReturnTheTeacherWithAssignedCourse() throws Exception {
         Teacher teacherToAdd = new Teacher("1", "FordProbe",
                 "Dirk", "Stadge",
                 "dirk@gmx.de", new ArrayList<Course>());
@@ -226,7 +234,8 @@ class TeacherControllerTest {
 
     @Test
     @DirtiesContext
-    void deleteTeacherById_whenListWithOneTeacherDeleted_thenReturnEmptyList() throws Exception {
+    @WithMockUser
+    void deleteTeacherById_whenListWithOneTeacherDeletedLoggedIn_thenReturnEmptyList() throws Exception {
 
         Teacher teacherToAdd = new Teacher("1", "FordProbe",
                 "Dirk", "Stadge",
@@ -247,7 +256,8 @@ class TeacherControllerTest {
 
     @Test
     @DirtiesContext
-    void deleteTeacherById_whenListWithMultipleTeacherDeleted_thenReturnListWithoutDeletedTeacher() throws Exception {
+    @WithMockUser
+    void deleteTeacherById_whenListWithMultipleTeacherDeletedLoggedIn_thenReturnListWithoutDeletedTeacher() throws Exception {
 
         Teacher teacherToAdd = new Teacher("1", "FordProbe",
                 "Dirk", "Stadge",
@@ -275,7 +285,8 @@ class TeacherControllerTest {
 
     @Test
     @DirtiesContext
-    void deleteCourseFromCourseListOfTeacher_whenTeacherWithOneCourseDeleted_thenReturnTeacherWithoutCourse() throws Exception {
+    @WithMockUser
+    void deleteCourseFromCourseListOfTeacher_whenTeacherWithOneCourseDeletedLoggedIn_thenReturnTeacherWithoutCourse() throws Exception {
         Teacher teacherToAdd = new Teacher("1", "FordProbe",
                 "Dirk", "Stadge",
                 "dirk@gmx.de", new ArrayList<Course>());
