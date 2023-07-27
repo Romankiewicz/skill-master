@@ -158,7 +158,7 @@ class CourseControllerTest {
         Course expectedCourse = courseRepository.findCourseByCourseNameEquals(updatedTeacher.courses().get(0).courseName());
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/courses/" + expectedCourse.courseId()))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
     }
 }
