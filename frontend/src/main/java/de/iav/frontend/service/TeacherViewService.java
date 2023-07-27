@@ -2,9 +2,12 @@ package de.iav.frontend.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.iav.frontend.model.Course;
 import de.iav.frontend.model.Student;
 import de.iav.frontend.model.Teacher;
 import de.iav.frontend.security.AuthenticationService;
+import javafx.application.Platform;
+import javafx.scene.control.ListView;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -47,6 +50,35 @@ public class TeacherViewService {
                 .join();
 
         return result;
+    }
+
+    public void deleteCourse(String courseIdToDelete, ListView<Course> coursesOfTeacherListView){
+
+        System.out.println("zu löschender Kurs: " + courseIdToDelete);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(STUDENTS_URL_BACKEND + "/api/courses/" + courseIdToDelete))
+                .header("Cookie", "JSESSIONID=" + AuthenticationService.getInstance().getSessionId())
+                .DELETE()
+                .build();
+
+        studentClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenAccept(response -> {
+                    if (response.statusCode() == 204) {
+                        Platform.runLater(() -> {
+                            coursesOfTeacherListView
+                                    .getItems()
+                                    .removeIf(course -> course.courseId().equals(courseIdToDelete));
+                            coursesOfTeacherListView.refresh();
+                        });
+                    }else {
+                        System.out.println(response.statusCode());
+                        throw new RuntimeException("Löschen des Kurses nicht möglich bitte eingaben überprüfen.");
+
+                    }
+                })
+                .join();
+
     }
 
     private Teacher mapToTeacher(String responseBody) {
