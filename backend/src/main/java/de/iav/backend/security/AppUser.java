@@ -7,11 +7,10 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 @Document(collection = "users")
 public record AppUser(
         String id,
-
-        // TODO: Make this unique
+        @Indexed(unique = true, name = "_login_name_")
         String loginName,
         String password,
-        @Indexed(unique = true)
+        @Indexed(unique = true, name =  "_email_")
         String email,
         AppUserRole role
 ) {
