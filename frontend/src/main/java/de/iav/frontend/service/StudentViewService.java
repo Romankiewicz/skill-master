@@ -19,7 +19,7 @@ public class StudentViewService {
     private final HttpClient studentClient = HttpClient.newHttpClient();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private String STUDENTS_URL_BACKEND = "http://localhost:8080";
+    private String STUDENTS_URL_BACKEND = System.getenv("BACKEND_STUDENT_URI");
 
     public StudentViewService() {
     }

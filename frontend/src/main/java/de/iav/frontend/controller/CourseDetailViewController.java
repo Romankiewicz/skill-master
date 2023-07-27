@@ -36,7 +36,7 @@ public class CourseDetailViewController {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    private static final String STUDENTS_URL_BACKEND = "http://localhost:8080";
+    private static final String STUDENTS_URL_BACKEND = System.getenv("BACKEND_STUDENT_URI");
 
     @FXML
     public void onCancelButtonClickSwitchToTeacherScene(ActionEvent event) throws IOException {

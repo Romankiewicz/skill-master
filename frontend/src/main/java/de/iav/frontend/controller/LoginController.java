@@ -32,7 +32,7 @@ public class LoginController {
 
     private AppUserRole selectedRole;
 
-    private String STUDENTS_URL_BACKEND = "http://localhost:8080";
+    private String STUDENTS_URL_BACKEND = System.getenv("BACKEND_STUDENT_URI");
 
     public void initialize() {
 
