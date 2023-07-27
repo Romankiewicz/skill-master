@@ -41,6 +41,7 @@ public class StudentViewController {
         registredCourses_LV.getItems().addAll(allCoursesOfStudent);
 
         List<Course> allCourses = StudentViewService.getInstance().getAllCourses();
+        Course chosenCourse = null;
         courseList_CB.getItems().addAll(allCourses);
 
     }
