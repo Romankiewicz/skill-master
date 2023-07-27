@@ -19,14 +19,21 @@ public class TeacherViewController {
     @FXML
     private Button newCourseButton;
 
+
+
     @FXML
     private ListView<Course> coursesOfTeacherListView;
+
+    @FXML
+    private final TeacherViewService teacherViewService = TeacherViewService.getInstance();
 
     public void initialize() {
         Teacher loginTeacher = TeacherViewService.getInstance().getLoginTeacher();
         List<Course> allCourses = loginTeacher.courses();
         coursesOfTeacherListView.getItems().addAll(allCourses);
     }
+
+
 
     @FXML
     public void onLogoutButtonClickSwitchToLoginScene(ActionEvent event) throws IOException {
@@ -37,4 +44,14 @@ public class TeacherViewController {
     public void onNewCourseButtonClickSwitchToCourseDetailsScene(ActionEvent event) throws IOException{
         SceneSwitchService.getInstance().switchToLoginView(event);
     }
+
+    @FXML
+    public void deleteSelectedCourse(){
+        teacherViewService.deleteCourse(coursesOfTeacherListView
+                .getSelectionModel()
+                .getSelectedItem()
+                .courseId()
+        ,coursesOfTeacherListView);
+    }
+
 }

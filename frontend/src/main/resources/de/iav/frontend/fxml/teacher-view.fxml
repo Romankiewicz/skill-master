@@ -29,6 +29,7 @@
          <children>
             <Button fx:id="logoutButton" layoutX="15.0" layoutY="160.0" mnemonicParsing="false" onAction="#onLogoutButtonClickSwitchToLoginScene" text="Ausloggen" textAlignment="CENTER" />
             <ListView fx:id="coursesOfTeacherListView" layoutX="15.0" layoutY="25.0" prefHeight="125.0" prefWidth="562.0" />
+            <Button fx:id="deleteCourse_PB" disable="false" layoutX="501.0" layoutY="160.0" mnemonicParsing="false" onAction="#deleteSelectedCourse" text="Kurs löschen" textAlignment="CENTER" />
          </children></AnchorPane>
   </items>
 </SplitPane>

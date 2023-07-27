@@ -3,6 +3,7 @@ package de.iav.backend.controller;
 import de.iav.backend.model.Course;
 import de.iav.backend.service.CourseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class CourseController {
     }
 
     @DeleteMapping("/{courseId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCourse(@PathVariable String courseId){
         courseService.deleteCourse(courseId);
     }

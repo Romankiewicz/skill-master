@@ -1,7 +1,9 @@
 package de.iav.frontend.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import de.iav.frontend.model.Course;
 import de.iav.frontend.model.Student;
+import de.iav.frontend.security.AuthenticationService;
 import de.iav.frontend.service.SceneSwitchService;
 import de.iav.frontend.service.StudentViewService;
 import javafx.event.ActionEvent;
@@ -49,7 +51,15 @@ public class StudentViewController {
     }
 
     @FXML
-    public void addCourseToStudentCourseList(ActionEvent event) throws IOException {
+    public void addCourseToStudentCourseList() throws JsonProcessingException {
+        studentViewService.addCourseToStudentCourseList(studentViewService
+                .getLoginStudent()
+                .studentId()
+                ,courseList_CB
+                        .getSelectionModel()
+                        .getSelectedItem()
+                        .courseId()
+                ,registredCourses_LV);
 
     }
 }

@@ -14,7 +14,7 @@
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
-            <Button fx:id="addCourse_PB" layoutX="505.0" layoutY="160.0" mnemonicParsing="false" text="Kurs buchen" />
+            <Button fx:id="addCourse_PB" layoutX="505.0" layoutY="160.0" mnemonicParsing="false" text="Kurs buchen" onAction="#addCourseToStudentCourseList"/>
             <ComboBox fx:id="courseList_CB" layoutX="45.0" layoutY="60.0" opacity="0.75" prefHeight="26.0" prefWidth="478.0" promptText="Kursauswahl" />
             <AmbientLight layoutX="263.0" layoutY="196.0">
                <color>
