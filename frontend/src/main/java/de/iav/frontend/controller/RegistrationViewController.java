@@ -1,7 +1,10 @@
 package de.iav.frontend.controller;
 
+import de.iav.frontend.model.StudentDTO_RequestBody;
+import de.iav.frontend.model.TeacherDTO_RequestBody;
 import de.iav.frontend.security.AppUserRole;
 import de.iav.frontend.security.AuthenticationService;
+import de.iav.frontend.service.RegistrationViewService;
 import de.iav.frontend.service.SceneSwitchService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -61,22 +64,49 @@ public class RegistrationViewController {
             String email = emailTextField.getText();
             String userName = userNameTextField.getText();
             String password = passwordTextField.getText();
+            String firstName = firstNameTextField.getText();
+            String lastName = lastNameTextField.getText();
 
             if(selectedRole.equals(AppUserRole.TEACHER)){
                 if (AuthenticationService.getInstance().createNewTeacher(email, userName, password)) {
-                    errorLabel.setText("Registration successful. Welcome " + AuthenticationService.getInstance().getUsername() + "!");
+                    System.out.println("Registration successful. Welcome " + AuthenticationService.getInstance().getUsername() + "!");
 
                     System.out.println("RegistrationViewController: " + AuthenticationService.getInstance().getSessionId());
+                    TeacherDTO_RequestBody newTeacher = new TeacherDTO_RequestBody(userName, firstName, lastName, email);
 
+                    boolean res = AuthenticationService.getInstance().login(userName, password);
+
+                    if (res && !AuthenticationService.getInstance().getUsername().equals("anonymousUser")
+                    ){
+                        RegistrationViewService.getInstance().addTeacher(newTeacher, AuthenticationService.getInstance().getSessionId());
+                    } else{
+                        // TODO show in label (red)
+                        System.out.println("LOGIN NAME IS _______________ " + AuthenticationService.getInstance().getUsername());
+                        System.out.println("LOGIN FAILED! USER NAME OR LOGIN INCORRECT");
+                    }
                     SceneSwitchService.getInstance().switchToLoginView(event);
                 } else {
                     errorLabel.setText(AuthenticationService.getInstance().getErrorMessage());
                 }
             } else {
                 if (AuthenticationService.getInstance().createNewStudent(email, userName, password)) {
-                    errorLabel.setText("Registration successful. Welcome " + AuthenticationService.getInstance().getUsername() + "!");
+                    System.out.println("Registration successful. Welcome " + AuthenticationService.getInstance().getUsername() + "!");
 
                     System.out.println("RegistrationViewController: " + AuthenticationService.getInstance().getSessionId());
+
+                    StudentDTO_RequestBody newStudent = new StudentDTO_RequestBody(userName, firstName, lastName, email);
+
+                    boolean res = AuthenticationService.getInstance().login(userName, password);
+
+                    if (res && !AuthenticationService.getInstance().getUsername().equals("anonymousUser")
+                    ){
+                        RegistrationViewService.getInstance().addStudent(newStudent, AuthenticationService.getInstance().getSessionId());
+                    } else{
+                        // TODO show in label (red)
+                        System.out.println("LOGIN NAME IS _______________ " + AuthenticationService.getInstance().getUsername());
+                        System.out.println("LOGIN FAILED! USER NAME OR LOGIN INCORRECT");
+                    }
+
 
                     SceneSwitchService.getInstance().switchToLoginView(event);
                 } else {
