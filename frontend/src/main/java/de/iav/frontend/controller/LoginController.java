@@ -80,12 +80,15 @@ public class LoginController {
 
                 var response = AuthenticationService.getInstance().getClient().sendAsync(request, HttpResponse.BodyHandlers.ofString());
                 int statusCode = response.join().statusCode();
+                String body = response.join().body();
 
                 if (statusCode==200 && response.join().body().length() > 0) {
                     SceneSwitchService.getInstance().switchToStudentView(event);
                 } else {
                     // TODO show in label (red)
-                    System.out.println("LOGIN FAILED! PROBABLY ROLE INCORRECT");
+                    System.out.println("LOGIN FAILED! PROBABLY ROLE INCORRECT OR INTERNAL SERVER ERROR");
+                    System.out.println("Status Code: " + statusCode);
+                    System.out.println("Response: " + body);
                 }
 
 
@@ -101,12 +104,15 @@ public class LoginController {
                 var response = AuthenticationService.getInstance().getClient().sendAsync(request, HttpResponse.BodyHandlers.ofString());
 
                 int statusCode = response.join().statusCode();
+                String body = response.join().body();
 
-                if (statusCode==200 && response.join().body().length() > 0) {
+                if (statusCode==200 && body.length() > 0) {
                     SceneSwitchService.getInstance().switchToTeacherView(event);
                 } else {
                     // TODO show in label (red)
-                    System.out.println("LOGIN FAILED! PROBABLY ROLE INCORRECT");
+                    System.out.println("LOGIN FAILED! PROBABLY ROLE INCORRECT OR INTERNAL SERVER ERROR");
+                    System.out.println("Status Code: " + statusCode);
+                    System.out.println("Response: " + body);
                 }
 
             }
@@ -115,7 +121,7 @@ public class LoginController {
         else {
             // TODO show in label (red)
             System.out.println("LOGIN NAME IS _______________ " + AuthenticationService.getInstance().getUsername());
-            System.out.println("LOGIN FAILED! USER NAME OR LOGIN INCORRECT");
+            System.out.println("LOGIN FAILED! USER NAME OR LOGIN INCORRECT OR INTERNAL SERVER ERROR");
         }
     }
 
