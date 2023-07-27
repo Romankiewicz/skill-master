@@ -31,6 +31,8 @@ public class CourseService {
     }
 
     public void deleteCourse(String courseId){
-        courseRepository.deleteById(courseId);
+        Course courseToDelete = courseRepository.findById(courseId)
+                .orElseThrow(() -> new NoSuchElementException());
+        courseRepository.delete(courseToDelete);
     }
 }

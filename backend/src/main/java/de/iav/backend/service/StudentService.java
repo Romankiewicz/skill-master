@@ -24,7 +24,7 @@ public class StudentService {
     }
 
     public Student getStudentByIdAndLoginName(String studentId, String loginName) {
-        return studentRepository.findStudentByStudentIdAndLoginName(studentId, loginName);
+        return studentRepository.findStudentByStudentIdOrLoginName(studentId, loginName);
     }
 
     public Student addStudent(StudentDTO_RequestBody studentToAdd) {

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -34,7 +35,8 @@ class StudentControllerTest {
 
     @Test
     @DirtiesContext
-    void getAllStudents_whenStudendsIsEmpty() throws Exception {
+    @WithMockUser
+    void getAllStudents_whenNoStudentExistsLoggedIn_thenReturnEmptyList() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/students"))
                 .andExpect(status().isOk())
@@ -43,7 +45,8 @@ class StudentControllerTest {
 
     @Test
     @DirtiesContext
-    void getAllStudents_whenStudentExist() throws Exception {
+    @WithMockUser
+    void getAllStudents_whenStudentExistsLoggedIn_thenReturnListWithTheStudent() throws Exception {
 
         //        1. Objekt vom Typ Student erzeugen:
         Student currentStudent = new Student("1", "MasterChief",
@@ -72,7 +75,8 @@ class StudentControllerTest {
 
     @Test
     @DirtiesContext
-    void getStudentByIdAndLoginName_whenStudentExists() throws Exception {
+    @WithMockUser
+    void getStudentByIdAndLoginName_whenStudentExistsLoggedIn_thenReturnStudent() throws Exception {
 
         Student currentStudent = new Student("1", "MasterChief",
                 "John",
@@ -98,7 +102,8 @@ class StudentControllerTest {
 
     @Test
     @DirtiesContext
-    void addStudent() throws Exception {
+    @WithMockUser
+    void addStudent_whenLoggedIn_thenReturnAddedStudent() throws Exception {
 
         Student currentStudent = new Student("1", "MasterChief",
                 "John",
@@ -115,7 +120,9 @@ class StudentControllerTest {
     }
 
     @Test
-    void updateStudentById() throws Exception {
+    @DirtiesContext
+    @WithMockUser
+    void updateStudentById_whenLoggedIn_thenReturnUpdatedStudent() throws Exception {
 
         Student currentStudent = new Student("1",
                 "MasterChief",
@@ -149,7 +156,8 @@ class StudentControllerTest {
 
     @Test
     @DirtiesContext
-    void addCourseToCourseListOfStudent()  throws Exception {
+    @WithMockUser
+    void addCourseToCourseListOfStudent_whenStudentLoggedIn_thenReturnUpdatedStudent()  throws Exception {
 
         Student currentStudent = new Student("1",
                 "MasterChief",
@@ -228,7 +236,8 @@ class StudentControllerTest {
 
     @Test
     @DirtiesContext
-    void deleteStudentById() throws Exception{
+    @WithMockUser
+    void deleteStudentById_whenLoggedIn_thenReturnNoContent() throws Exception{
 
         Student currentStudent = new Student("1",
                 "MasterChief",
@@ -254,7 +263,8 @@ class StudentControllerTest {
 
     @Test
     @DirtiesContext
-    void deleteCourseFromCourseListOfStudent() throws Exception {
+    @WithMockUser
+    void deleteCourseFromCourseListOfStudent_whenLoggedIn_thenReturnNoContent() throws Exception {
 
         Student currentStudent = new Student("1",
                 "MasterChief",

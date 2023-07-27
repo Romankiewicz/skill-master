@@ -10,5 +10,7 @@ import java.util.List;
 public interface StudentRepository extends MongoRepository<Student, String> {
     public Student findStudentByStudentIdAndLoginName(String studentId, String loginName);
 
+    public Student findStudentByStudentIdOrLoginName(String studentId, String loginName);
+
     List<Student> findAll();
 }

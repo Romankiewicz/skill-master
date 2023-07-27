@@ -13,6 +13,8 @@ public interface TeacherRepository extends MongoRepository<Teacher, String> {
 
     Teacher findByLoginNameAndTeacherId(String loginName, String teacherId);
 
+    Teacher findByLoginNameOrTeacherId(String loginName, String teacherId);
+
 
     List<Teacher> findAll();
     Optional<Teacher> findById(String s);

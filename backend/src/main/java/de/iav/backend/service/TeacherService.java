@@ -33,7 +33,7 @@ public class TeacherService {
     }
     
     public Teacher findByLoginNameAndTeacherId(String loginName, String teacherId){
-        return teacherRepository.findByLoginNameAndTeacherId(loginName, teacherId);
+        return teacherRepository.findByLoginNameOrTeacherId(loginName, teacherId);
     }
     
     public Teacher addTeacher (TeacherDTO_RequestBody teacher){

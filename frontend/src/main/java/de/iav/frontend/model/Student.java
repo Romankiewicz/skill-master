@@ -1,6 +1,8 @@
 package de.iav.frontend.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.List;
 
 public record Student(
@@ -9,7 +11,7 @@ public record Student(
         String firstName,
         String lastName,
         String email,
-        List<Course> courseList
+        List<Course> courses
 
 ) {
 

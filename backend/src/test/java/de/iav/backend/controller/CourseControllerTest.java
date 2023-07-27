@@ -4,11 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.iav.backend.model.Course;
 import de.iav.backend.model.Teacher;
 import de.iav.backend.repository.CourseRepository;
+import lombok.With;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -33,6 +35,7 @@ class CourseControllerTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser
     void getAllCourses_whenNoCoursesExists_thenReturnEmptyList() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/courses"))
                 .andExpect(status().isOk())
@@ -41,6 +44,7 @@ class CourseControllerTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser
     void getAllCourses_whenCoursesIsNotEmpty_thenReturnListWithElementsAsJson() throws Exception {
         Teacher currentTeacher = new Teacher(null, "user", "Dirk", "Stadge", "123@gmx.de", new ArrayList<>());
 
@@ -73,6 +77,7 @@ class CourseControllerTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser
     void getCourseByCourseName_whenCourseWithGivenNameExist_thenExpectStatusOkAndReturnCourseAsJson() throws Exception {
         Teacher currentTeacher = new Teacher(null, "user", "Dirk", "Stadge", "123@gmx.de", new ArrayList<>());
 
@@ -102,6 +107,7 @@ class CourseControllerTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser
     void getCourseById_whenCourseWithGivenIdExist_thenExpectStatusOkAndReturnCourseAsJson() throws Exception {
         Teacher currentTeacher = new Teacher(null, "user", "Dirk", "Stadge", "123@gmx.de", new ArrayList<>());
 
@@ -129,6 +135,7 @@ class CourseControllerTest {
     }
     @Test
     @DirtiesContext
+    @WithMockUser
     void deleteCourse_whenCourseWithIdExists_thenDeleteCourseAndReturnNothing()throws Exception {
         Teacher currentTeacher = new Teacher(null, "user", "Dirk", "Stadge", "123@gmx.de", new ArrayList<>());
 
@@ -151,7 +158,7 @@ class CourseControllerTest {
         Course expectedCourse = courseRepository.findCourseByCourseNameEquals(updatedTeacher.courses().get(0).courseName());
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/courses/" + expectedCourse.courseId()))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
     }
 }
