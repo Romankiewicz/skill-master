@@ -63,4 +63,17 @@ public class StudentViewController {
                 ,registredCourses_LV);
 
     }
+
+    @FXML
+    public void deleteCourseFromStudentCourseList() {
+        studentViewService.deleteCourseFromStudentCourseList(studentViewService
+                .getLoginStudent()
+                .studentId()
+                ,registredCourses_LV
+                        .getSelectionModel()
+                        .getSelectedItem()
+                        .courseId()
+                ,registredCourses_LV);
+    }
+
 }

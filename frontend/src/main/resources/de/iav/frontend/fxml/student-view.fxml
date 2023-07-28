@@ -14,7 +14,7 @@
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
-            <Button fx:id="addCourse_PB" layoutX="505.0" layoutY="160.0" mnemonicParsing="false" text="Kurs buchen" onAction="#addCourseToStudentCourseList"/>
+            <Button fx:id="addCourse_PB" layoutX="505.0" layoutY="160.0" mnemonicParsing="false" onAction="#addCourseToStudentCourseList" text="Kurs buchen" />
             <ComboBox fx:id="courseList_CB" layoutX="45.0" layoutY="60.0" opacity="0.75" prefHeight="26.0" prefWidth="478.0" promptText="Kursauswahl" />
             <AmbientLight layoutX="263.0" layoutY="196.0">
                <color>
@@ -29,8 +29,9 @@
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
-            <Button fx:id="logout_PB" layoutX="15.0" layoutY="160.0" mnemonicParsing="false" text="Ausloggen" textAlignment="CENTER" onAction="#onLogoutButtonClick_switchToLoginView"/>
+            <Button fx:id="logout_PB" layoutX="15.0" layoutY="160.0" mnemonicParsing="false" onAction="#onLogoutButtonClick_switchToLoginView" text="Ausloggen" textAlignment="CENTER" />
             <ListView fx:id="registredCourses_LV" layoutX="15.0" layoutY="25.0" prefHeight="125.0" prefWidth="562.0" />
+            <Button fx:id="delete_PB" layoutX="494.0" layoutY="160.0" mnemonicParsing="false" text="Kurs entfernen" onAction="#deleteCourseFromStudentCourseList" />
          </children></AnchorPane>
   </items>
 </SplitPane>
