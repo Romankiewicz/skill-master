@@ -128,7 +128,7 @@ public class StudentViewService {
 
             studentClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                     .thenAccept(response -> {
-                        if (response.statusCode() == 202) {
+                        if (response.statusCode() == 204) {
                             Platform.runLater(() -> {
                                 Student loginStudent = StudentViewService.getInstance().getLoginStudent();
                                 List<Course> allCoursesOfStudent = loginStudent.courses();
@@ -137,6 +137,9 @@ public class StudentViewService {
                                 registredCoursesLv.refresh();
                             });
                         }else {
+                            System.out.println(response.statusCode());
+                            System.out.println(response.body());
+
                             throw new RuntimeException("Der Kurs konnte nicht gelöscht werden.");
                         }
                     })
