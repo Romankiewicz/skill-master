@@ -118,6 +118,33 @@ public class StudentViewService {
 
         return result;
     }
+    public void deleteCourseFromStudentCourseList(String studentId, String courseId, ListView<Course> registredCoursesLv) {
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(STUDENTS_URL_BACKEND + "/api/students/" + studentId + "/course/" + courseId))
+                    .header("Cookie", "JSESSIONID=" + AuthenticationService.getInstance().getSessionId())
+                    .DELETE()
+                    .build();
+
+            studentClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenAccept(response -> {
+                        if (response.statusCode() == 204) {
+                            Platform.runLater(() -> {
+                                Student loginStudent = StudentViewService.getInstance().getLoginStudent();
+                                List<Course> allCoursesOfStudent = loginStudent.courses();
+                                registredCoursesLv.getItems().clear();
+                                registredCoursesLv.getItems().addAll(allCoursesOfStudent);
+                                registredCoursesLv.refresh();
+                            });
+                        }else {
+                            System.out.println(response.statusCode());
+                            System.out.println(response.body());
+
+                            throw new RuntimeException("Der Kurs konnte nicht gelöscht werden.");
+                        }
+                    })
+                    .join();
+    }
 
     private Student mapToStudent(String responseBody) {
 
@@ -149,7 +176,6 @@ public class StudentViewService {
             throw new RuntimeException(e);
         }
     }
-
 
 
 }
